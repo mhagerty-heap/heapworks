@@ -1,0 +1,48 @@
+{
+    "data":[
+       {
+          "id":1000,
+          "title":"Configuring your Account",
+          "category":"General",
+          "publishDate":"2020-07-24",
+          "type":"permanent",
+          "author":"John Smith",
+          "views":51,
+          "keywords": "test,test,test",
+          "articleContent": "This article will walk you through the process of configuring your account"
+       },
+       {
+          "id":1001,
+          "title":"Creating a Ticket",
+          "category":"General",
+          "publishDate":"2020-07-24",
+          "type":"permanent",
+          "author":"Al Verily",
+          "views":51,
+          "keywords": "test,test,test",
+          "articleContent": "This article will walk you through the creation of a ticket"
+       },
+       {
+          "id":1002,
+          "title":"Creating a Problem",
+          "category":"General",
+          "publishDate":"2020-07-24",
+          "type":"permanent",
+          "author":"Sam Crab",
+          "views":51,
+          "keywords": "test,test,test",
+          "articleContent": "This article will walk you through the creation of a problem"
+       },
+       {
+          "id":1002,
+          "title":"Bolding the title of an article",
+          "category":"General",
+          "publishDate":"2020-07-24",
+          "type":"workaround",
+          "author":"Sam Crab",
+          "views":51,
+          "keywords": "test,test,test",
+          "articleContent": "This article explains a workaround for bolding the title of an article"
+       }
+    ]
+  }
