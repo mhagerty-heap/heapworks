@@ -167,7 +167,7 @@ const App = () => {
         {
             label: 'Changes List',
             items: [
-                { label: 'List', icon: 'pi pi-fw pi-book', to: '/changesList' },
+                { label: 'Changes List', icon: 'pi pi-fw pi-book', to: '/changesList' },
                 { label: 'Create New Change', icon: 'pi pi-fw pi-plus', to: '/createNewChange' },
             ]
         },
