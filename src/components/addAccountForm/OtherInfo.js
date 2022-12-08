@@ -16,7 +16,7 @@ function OtherInfo({ formData, setFormData }) {
     <div className="personal-info-container">
       <div className="field col-12 md:col-4">
 
-        <ListBox multiple value={formData.otherFinancialInterests} options={otherFinancialInterestItems} onChange={(e) => setFormData({ ...formData, otherFinancialInterests: e.target.value })} />
+        <ListBox id="otherFinancialInterests" multiple value={formData.otherFinancialInterests} options={otherFinancialInterestItems} onChange={(e) => setFormData({ ...formData, otherFinancialInterests: e.target.value })} />
       </div>
     </div>
 

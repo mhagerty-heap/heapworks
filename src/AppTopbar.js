@@ -109,9 +109,9 @@ export const AppTopbar = (props) => {
                     <div className="body">{PageDisplay()}</div><h5></h5>
                     <div className="footer">
 
-                      <Button disabled={page == 0} label="Previous" onClick={() => {setPage((currPage) => currPage - 1)}} />
+                      <Button disabled={page == 0} id="Previous" label="Previous" onClick={() => {setPage((currPage) => currPage - 1)}} />
                       &nbsp;&nbsp;
-                      <Button label={page === FormTitles.length - 1 ? "Submit" : "Next"} onClick={() => {
+                      <Button id={page === FormTitles.length - 1 ? "Submit" : "Next"} label={page === FormTitles.length - 1 ? "Submit" : "Next"} onClick={() => {
                         if (page === FormTitles.length - 1) {
                           console.log(formData);
                           setDisplayBasic(false);

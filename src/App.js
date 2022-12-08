@@ -180,8 +180,8 @@ const App = () => {
         {
             label: 'Admin',
             items: [
-                { label: 'Account', icon: 'pi pi-fw pi-cog', to: '/account' },
-                {label: 'Setup Wizard', icon: 'pi pi-fw pi-bolt', to: '/setupWizard', badge: "NEW" },
+                { label: 'Contact Details', icon: 'pi pi-fw pi-cog', to: '/account' },
+                {label: 'Setup Wizard', icon: 'pi pi-fw pi-bolt', to: '/addAccountForm', badge: "NEW" },
             ]
         },
 
