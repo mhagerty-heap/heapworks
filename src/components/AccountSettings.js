@@ -114,15 +114,15 @@ function AccountSettings() {
             <div className="field col-12 md:col-4"></div>
             <div className="field col-12 md:col-4"></div>
             <div className="field col-12 md:col-4">
-              <label htmlFor="in">Support Username</label>
+              <label htmlFor="in">Support Username</label>&nbsp;&nbsp;
               <InputText id="supportUsername" style={{width: "250px"}} placeholder="ex: play = play@playworks.com" value={formData.supportUsername} onChange={(event) => setFormData({ ...formData, supportUsername: event.target.value } )}/>
             </div>
             <div className="field col-12 md:col-4">
-              <label htmlFor="in">Helpdesk Name</label>
+              <label htmlFor="in">Helpdesk Name</label>&nbsp;&nbsp;
               <InputText id="helpdeskName" style={{width: "250px"}} placeholder="ex: Play Helpdesk" value={formData.helpdeskName} onChange={(event) => setFormData({ ...formData, helpdeskName: event.target.value } )}/>
             </div>
             <div className="field col-12 md:col-4">
-                <label htmlFor="in">Helpdesk Domain</label>
+                <label htmlFor="in">Helpdesk Domain</label>&nbsp;&nbsp;
                 <InputText id="helpdeskDomain" style={{width: "250px"}} placeholder="ex: play = play.playworks.com" value={formData.helpdeskDomain} onChange={(event) => setFormData({ ...formData, helpdeskDomain: event.target.value } )}/>
             </div>
           </div>
