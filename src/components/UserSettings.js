@@ -13,7 +13,7 @@ import { classNames } from 'primereact/utils';
 import { CountryService } from '../service/CountryService';
 import '../assets/layout/supportForm/SupportForm.css';
 
-const Account = () => {
+const UserSettings = () => {
 
 
     const statusOptions = [
@@ -79,12 +79,12 @@ const Account = () => {
 
             <div className="grid p-fluid">
                 <div className="card">
-                    <h5>Contact Details</h5>
+                    <h5>User Settings</h5>
                     <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
                         <div className="field">
                             <span className="p-float-label">
                                 <Controller name="firstName" control={control} rules={{ required: 'First Name is required.' }} render={({ field, fieldState }) => (
-                                    <InputText id={field.name} {...field} autoFocus className={classNames({ 'p-invalid': fieldState.invalid })} />
+                                    <InputText value={"John"} id={field.name} {...field} autoFocus className={classNames({ 'p-invalid': fieldState.invalid })} />
                                 )} />
                                 <label htmlFor="firstName" className={classNames({ 'p-error': errors.name })}>First Name*</label>
                             </span>
@@ -136,4 +136,4 @@ const comparisonFn = function (prevProps, nextProps) {
     return prevProps.location.pathname === nextProps.location.pathname;
 };
 
-export default React.memo(Account, comparisonFn);
+export default React.memo(UserSettings, comparisonFn);

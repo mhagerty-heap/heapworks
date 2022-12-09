@@ -9,9 +9,7 @@ function SetupBusinessDays({ formData, setFormData }) {
     {label: 'Tuesday', value: 'Tuesday'},
     {label: 'Wednesday', value: 'Wednesday'},
     {label: 'Thursday', value: 'Thursday'},
-    {label: 'Friday', value: 'Friday'},
-    {label: 'Saturday', value: 'Saturday'},
-    {label: 'Sunday', value: 'Sunday'}
+    {label: 'Friday', value: 'Friday'}
   ];
 
   const supportHours = [

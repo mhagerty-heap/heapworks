@@ -304,7 +304,7 @@ const Dashboard = (props) => {
                     <div className="text-white font-medium text-3xl">Setup your account like an expert!</div>
                 </div>
                 <div className="mt-4 mr-auto md:mt-0 md:mr-0">
-                    <a href="/addAccountForm" className="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">
+                    <a href="/accountSettings" className="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">
                         Setup Wizard
                     </a>
                 </div>

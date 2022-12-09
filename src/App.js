@@ -10,7 +10,7 @@ import PrimeReact from 'primereact/api';
 import { Tooltip } from 'primereact/tooltip';
 import Dashboard from './components/Dashboard';
 import SavingsDetails from './components/SavingsDetails';
-import AddAccountForm from './components/AddAccountForm';
+import AccountSettings from './components/AccountSettings';
 import SetupWizard from "./components/SetupWizard";
 import TicketsList from "./components/TicketsList";
 import ChangesList from "./components/ChangesList";
@@ -19,7 +19,7 @@ import CreateNewTicket from "./components/CreateNewTicket";
 import CreateNewChange from "./components/CreateNewChange";
 import CreateNewProblem from "./components/CreateNewProblem";
 import CreateNewArticle from "./components/CreateNewArticle";
-import Account from "./components/Account";
+import UserSettings from "./components/UserSettings";
 import ArticlesList from "./components/ArticlesList";
 
 import 'primereact/resources/primereact.css';
@@ -180,8 +180,7 @@ const App = () => {
         {
             label: 'Admin',
             items: [
-                { label: 'Contact Details', icon: 'pi pi-fw pi-cog', to: '/account' },
-                {label: 'Setup Wizard', icon: 'pi pi-fw pi-bolt', to: '/addAccountForm', badge: "NEW" },
+                {label: 'Account Settings', icon: 'pi pi-fw pi-bolt', to: '/accountSettings', badge: "NEW" },
             ]
         },
 
@@ -229,13 +228,13 @@ const App = () => {
                     <Route path="/ticketsList" component={TicketsList} />
                     <Route path="/changesList" component={ChangesList} />
                     <Route path="/problemsList" component={ProblemsList} />
-                    <Route path="/addAccountForm" component={AddAccountForm} />
+                    <Route path="/accountSettings" component={AccountSettings} />
                     <Route path="/setupWizard" component={SetupWizard} />
                     <Route path="/createNewTicket" component={CreateNewTicket} />
                     <Route path="/createNewChange" component={CreateNewChange} />
                     <Route path="/createNewProblem" component={CreateNewProblem} />
                     <Route path="/createNewArticle" component={CreateNewArticle} />
-                    <Route path="/account" component={Account} />
+                    <Route path="/userSettings" component={UserSettings} />
                     <Route path="/articlesList" component={ArticlesList} />
                 </div>
 
