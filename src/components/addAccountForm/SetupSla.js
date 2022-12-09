@@ -18,23 +18,23 @@ function SetupSla({ formData, setFormData }) {
     <div className="sign-up-container">
       <div className="field col-12 md:col-4">
         <label htmlFor="in">SLA Policy Name</label>
-        <InputText style={{width: "325px"}} placeholder="Play Default Policy" value={formData.slaName} onChange={(event) => setFormData({ ...formData, slaName: event.target.value } )}/>
+        <InputText id="slaName" style={{width: "325px"}} placeholder="Play Default Policy" value={formData.slaName} onChange={(event) => setFormData({ ...formData, slaName: event.target.value } )}/>
       </div>
       <div className="field col-12 md:col-4">
         <label htmlFor="in">Urgent Respond Within Time</label>
-        <Dropdown value={formData.urgentResponseWithinTime} options={respondHoursOptions} onChange={(event) => setFormData({ ...formData, urgentResponseWithinTime: event.target.value } )}/>
+        <Dropdown id="urgentResponseWithinTine" value={formData.urgentResponseWithinTime} options={respondHoursOptions} onChange={(event) => setFormData({ ...formData, urgentResponseWithinTime: event.target.value } )}/>
       </div>
       <div className="field col-12 md:col-4">
         <label htmlFor="in">Urgent Resolve Within Time</label>
-        <Dropdown value={formData.urgentResolveWithinTime} options={respondHoursOptions} onChange={(event) => setFormData({ ...formData, urgentResolveWithinTime: event.target.value } )}/>
+        <Dropdown id="urgentResolveWithinTime" value={formData.urgentResolveWithinTime} options={respondHoursOptions} onChange={(event) => setFormData({ ...formData, urgentResolveWithinTime: event.target.value } )}/>
       </div>
       <div className="field col-12 md:col-4">
         <label htmlFor="in">High Respond Within Time</label>
-        <Dropdown value={formData.highResponseWithinTime} options={respondHoursOptions} onChange={(event) => setFormData({ ...formData, highResponseWithinTime: event.target.value } )}/>
+        <Dropdown id="highResponseWithinTime" value={formData.highResponseWithinTime} options={respondHoursOptions} onChange={(event) => setFormData({ ...formData, highResponseWithinTime: event.target.value } )}/>
       </div>
       <div className="field col-12 md:col-4">
         <label htmlFor="in">High Resolve Within Time</label>
-        <Dropdown value={formData.highResolveWithinTime} options={respondHoursOptions} onChange={(event) => setFormData({ ...formData, highResolveWithinTime: event.target.value } )}/>
+        <Dropdown id="highResolveWithinTime" value={formData.highResolveWithinTime} options={respondHoursOptions} onChange={(event) => setFormData({ ...formData, highResolveWithinTime: event.target.value } )}/>
       </div>
     </div>
 
