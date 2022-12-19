@@ -21,6 +21,7 @@ import CreateNewProblem from "./components/CreateNewProblem";
 import CreateNewArticle from "./components/CreateNewArticle";
 import UserSettings from "./components/UserSettings";
 import ArticlesList from "./components/ArticlesList";
+import Ticket from "./components/Ticket";
 
 import 'primereact/resources/primereact.css';
 import 'primeicons/primeicons.css';
@@ -213,6 +214,7 @@ const App = () => {
 
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
+            
             <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
 
             <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
@@ -236,6 +238,7 @@ const App = () => {
                     <Route path="/createNewArticle" component={CreateNewArticle} />
                     <Route path="/userSettings" component={UserSettings} />
                     <Route path="/articlesList" component={ArticlesList} />
+                    <Route path="/ticket" component={Ticket} />
                 </div>
 
                 <AppFooter layoutColorMode={layoutColorMode} />

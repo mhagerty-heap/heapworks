@@ -16,6 +16,10 @@ import { ToggleButton } from 'primereact/togglebutton';
 import { Rating } from 'primereact/rating';
 import { CustomerService } from '../service/CustomerService';
 import { ProductService } from '../service/ProductService';
+import { Divider } from 'primereact/divider';
+
+
+import Ticket from './Ticket';
 
 const lineData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -50,6 +54,7 @@ const TicketsList = (props) => {
     const [idFrozen, setIdFrozen] = useState(false);
     const [products, setProducts] = useState([]);
     const [expandedRows, setExpandedRows] = useState(null);
+    const [selectedTicket, setSelectedTicket] = useState(null);
 
     const applyLightTheme = () => {
       const lineOptions = {
@@ -388,6 +393,10 @@ const TicketsList = (props) => {
         }
     }, [props.colorMode]); // eslint-disable-line react-hooks/exhaustive-deps
 
+    const onTicketSelect = (event) => {
+      console.log("ticket selected: " + event.data.balance);
+    };
+
     return (
         <div className="grid p-fluid">
           <div className="col-12 card">
@@ -398,17 +407,26 @@ const TicketsList = (props) => {
                     </button>
                 </a>
               </h5>
-              <DataTable value={customers1} paginator className="p-datatable-gridlines" showGridlines rows={10}
-                  dataKey="id" filters={filters1} filterDisplay="menu" loading={loading1} responsiveLayout="scroll"
-                    emptyMessage="No customers found.">
+              <DataTable value={customers1} selectionMode="single" selection={selectedTicket} onSelectionChange={e => setSelectedTicket(e.value)} onRowSelect={onTicketSelect} paginator className="p-datatable-gridlines" showGridlines rows={5}
+                  dataKey="id" filters={filters1} filterDisplay="menu" loading={loading1} responsiveLayout="scroll" emptyMessage="No customers found.">
+
+                    <Column header="Ticket Number" filterField="balance" dataType="numeric" style={{ minWidth: '10rem' }} body={balanceBodyTemplate} filter filterElement={balanceFilterTemplate} />
+
                   <Column field="name" header="Name" filter filterPlaceholder="Search by name" style={{ minWidth: '12rem' }} />
                   <Column header="Date" filterField="date" dataType="date" style={{ minWidth: '10rem' }} body={dateBodyTemplate}
                       filter filterElement={dateFilterTemplate} />
-                  <Column header="Ticket Number" filterField="balance" dataType="numeric" style={{ minWidth: '10rem' }} body={balanceBodyTemplate} filter filterElement={balanceFilterTemplate} />
+
                   <Column field="status" header="Status" filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusFilterTemplate} />
                   <Column field="activity" header="Past Activity" showFilterMatchModes={false} style={{ minWidth: '12rem' }} body={activityBodyTemplate} filter filterElement={activityFilterTemplate} />
 
               </DataTable>
+
+              <Divider align="left">
+                <div className="inline-flex align-items-center">
+                  <i className="pi pi-ticket mr-2"></i>
+                  <b>Ticket Detail</b>
+                </div>
+              </Divider>
           </div>
 
         </div>

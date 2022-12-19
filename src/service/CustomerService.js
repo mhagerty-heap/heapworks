@@ -26,6 +26,11 @@ export class CustomerService {
             .then(res => res.data.data);
     }
 
+    // getCustomersTickets() {
+    //     return axios.get('assets/demo/data/heapworksTickets.json')
+    //         .then(res => res.data.data);
+    // }
+
     getCustomersProblems() {
         return axios.get('assets/demo/data/customers-problems.json')
             .then(res => res.data.data);
