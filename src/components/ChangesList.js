@@ -112,7 +112,7 @@ const ChangesList = (props) => {
       const updatedTicketsString = JSON.stringify(ticketsLocalCopyParsed); //  array into json string to store
       sessionStorage.setItem('changesLocalCopy', updatedTicketsString); // store updated ticket data in localStorage
       console.log("Ticket Updated");
-      updateTicketSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: 'Ticket Updated'});
+      updateTicketSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: 'Change Updated'});
     };
 
     return (
