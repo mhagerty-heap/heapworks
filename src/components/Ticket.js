@@ -1,179 +1,103 @@
-import React, { useEffect, useState } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import React, {useState, useRef} from 'react';
 import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from 'primereact/inputtextarea';
+import { Editor } from 'primereact/editor';
 import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';
-import { Password } from 'primereact/password';
-import { Checkbox } from 'primereact/checkbox';
-import { Dialog } from 'primereact/dialog';
-import { Divider } from 'primereact/divider';
-import { classNames } from 'primereact/utils';
-import { CountryService } from '../service/CountryService';
-import '../assets/layout/supportForm/SupportForm.css';
+import { Toast } from 'primereact/toast';
 
-const Ticket = () => {
+export const Ticket = (props) => {
 
+    const ticketData = props.displayedTicket;
+    const [ticketNumber, setTicketNumber] = useState(ticketData.ticketNumber);
+    const [requestorName, setRequestorName] = useState(ticketData.requestorName);
+    const [requestorEmail, setRequestorEmail] = useState(ticketData.requestorEmail);
+    const [subject, setSubject] = useState(ticketData.subject);
+    const [status, setStatus] = useState(ticketData.status);
+    const [urgency, setUrgency] = useState(ticketData.urgency);
+    const [impact, setImpact] = useState(ticketData.impact);
+    const [priority, setPriority] = useState(ticketData.priority);
+    const [detailedDescription, setDetailedDescription] = useState(ticketData.detailedDescription);
+    const [requestedDate, setRequestedDate] = useState(ticketData.requestedDate);
+    const [requestedTime, setRequestedTime] = useState(ticketData.requestedTime);
+    const updateTicketSuccessMessage = useRef(null);
+    const updateTicketFailMessage = useRef(null);
 
-    const statusOptions = [
-     { value: 'open', label: 'Open'},
-     { value: 'pending', label: 'Pending'},
-     { value: 'resolved', label: 'Resolved'},
-     { value: 'closed', label: 'Closed'},
-    ];
-
-    const urgencyOptions = [
-     { value: 'low', label: 'Low'},
-     { value: 'medium', label: 'Medium'},
-     { value: 'high', label: 'High'},
-    ];
-
-    const impactOptions = [
-     { value: 'low', label: 'Low'},
-     { value: 'medium', label: 'Medium'},
-     { value: 'high', label: 'High'},
-    ];
-
-    const priorityOptions = [
-      { value: 'low', label: 'Low'},
-      { value: 'medium', label: 'Medium'},
-      { value: 'high', label: 'High'},
-      { value: 'urgent', label: 'Urgent'},
-    ];
-
-    const [showMessage, setShowMessage] = useState(false);
-    const [formData, setFormData] = useState({});
-    const defaultValues = {
-        name: '',
-        email: '',
-        ticketIssue: '',
-        date: null,
-        country: null,
-        accept: false
-    }
-
-    const { control, formState: { errors }, handleSubmit, reset } = useForm({ defaultValues });
-
-    const onSubmit = (data) => {
-        setFormData(data);
-        setShowMessage(true);
-
-        reset();
+    const updateTicket = (event) => {
+      event.preventDefault();
+      console.log("Ticket Updated");
+      updateTicketSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: 'Ticket Updated'});
     };
-
-    const getFormErrorMessage = (name) => {
-        return errors[name] && <small className="p-error">{errors[name].message}</small>
-    };
-
-    const dialogFooter = <div className="flex justify-content-center"><Button label="OK" className="p-button-text" autoFocus onClick={() => setShowMessage(false)} /></div>;
 
     return (
-        <div className="form-demo">
-            <Dialog visible={showMessage} onHide={() => setShowMessage(false)} position="top" footer={dialogFooter} showHeader={false} breakpoints={{ '960px': '80vw' }} style={{ width: '30vw' }}>
-                <div className="flex justify-content-center flex-column pt-6 px-3">
-                    <i className="pi pi-check-circle" style={{ fontSize: '5rem', color: 'var(--green-500)' }}></i>
-                    <h5>A Ticket Has Been Created!</h5>
-                </div>
-            </Dialog>
+      <div className="">
+          <div className="col-12">
+              <div className="card">
+                  {
+                    ticketData == ""
+                      ?
+                        <div></div>
+                      :
 
-            <div className="grid p-fluid">
-                <div className="card">
-                    <h5>Create A Ticket</h5>
-                    <form onSubmit={handleSubmit(onSubmit)} className="p-fluid">
-                        <div className="field">
-                            <span className="p-float-label">
-                                <Controller name="name" control={control} rules={{ required: 'Name is required.' }} render={({ field, fieldState }) => (
-                                    <InputText id={field.name} {...field} autoFocus className={classNames({ 'p-invalid': fieldState.invalid })} />
-                                )} />
-                                <label htmlFor="name" className={classNames({ 'p-error': errors.name })}>Requestor Name*</label>
-                            </span>
-                            {getFormErrorMessage('name')}
-                        </div>
+                        <form>
+                        <Toast ref={updateTicketSuccessMessage} />
+                        <div className="grid">
+                            <div className="col-2">
 
-                        <div className="field">
-                            <span className="p-float-label p-input-icon-right">
-                                <i className="pi pi-envelope" />
-                                <Controller name="email" control={control}
-                                    rules={{ required: 'Email is required.', pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i, message: 'Invalid email address. E.g. example@email.com' }}}
-                                    render={({ field, fieldState }) => (
-                                        <InputText id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
-                                )} />
-                                <label htmlFor="email" className={classNames({ 'p-error': !!errors.email })}>Requestor Email*</label>
-                            </span>
-                            {getFormErrorMessage('email')}
-                        </div>
+                              <label htmlFor="ticketNumberField">Ticket Number</label>
+                              <InputText id="ticketNumberField" value={props.displayedTicket.ticketNumber} onChange={(e) => setTicketNumber(e.target.value)} />
+                            </div>
+                            <div className="col-2">
+                              <label htmlFor="requestorNameField">Requestor Name</label>
+                              <InputText id="requestorNameField" value={props.displayedTicket.requestorName} onChange={(e) => setRequestorName(e.target.value)} />
+                            </div>
+                            <div className="col-2">
+                              <label htmlFor="requestorEmailField">Requestor Email</label>
+                              <InputText id="requestorEmailField" value={props.displayedTicket.requestorEmail} onChange={(e) => setRequestorEmail(e.target.value)} />
+                            </div>
+                            <div className="col-2">
+                              <label htmlFor="subjectField">Ticket Subject</label>
+                              <InputText id="subjectField" value={props.displayedTicket.subject} onChange={(e) => setSubject(e.target.value)} />
+                            </div>
+                            <div className="col-2">
+                              <label htmlFor="statusField">Ticket Status</label>
+                              <InputText id="statusField" value={props.displayedTicket.status} onChange={(e) => setStatus(e.target.value)} />
+                            </div>
+                            <div className="col-2">
+                              <label htmlFor="urgencyField">Ticket Urgency</label>
+                              <InputText id="urgencyField" value={props.displayedTicket.urgency} onChange={(e) => setUrgency(e.target.value)} />
+                            </div>
+                            <div className="col-2">
+                              <label htmlFor="impactField">Ticket Impact</label>
+                              <InputText id="impactField" value={props.displayedTicket.impact} onChange={(e) => setImpact(e.target.value)} />
+                            </div>
+                            <div className="col-2">
+                              <label htmlFor="priorityField">Ticket Priority</label>
+                              <InputText id="priorityField" value={props.displayedTicket.priority} onChange={(e) => setPriority(e.target.value)} />
+                            </div>
+                            <div className="col-2">
+                              <label htmlFor="requestedDateField">Requested Date</label>
+                              <InputText id="requestedDateField" value={props.displayedTicket.requestedDate} onChange={(e) => setRequestedDate(e.target.value)} />
+                            </div>
+                            <div className="col-2">
+                              <label htmlFor="requestedTimeField">Requested Time</label>
+                              <InputText id="requestedTimeField" value={props.displayedTicket.requestedTime} onChange={(e) => setRequestedTime(e.target.value)} />
+                            </div>
+                            <div className="col-3">
+                            </div>
+                            <div className="col-3">
+                            </div>
+                            <div className="col-12">
+                              <label htmlFor="detailedDescriptionField">Detailed Description</label>
+                              <Editor style={{height:'75px'}} id="detailedDescriptionField" value={props.displayedTicket.detailedDescription} onTextChange={(e) => setDetailedDescription(e.htmlValue)} />
+                            </div>
+                            <div className="col-1">
+                              <Button id="updateTicket" name="updateTicket" label="Update Ticket" onClick={updateTicket}/>
+                            </div>
 
-                        <div className="field">
-                            <span className="p-float-label">
-                                <Controller name="subject" control={control} rules={{ required: 'Subject is required.' }} render={({ field, fieldState }) => (
-                                    <InputText id={field.name} {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
-                                )} />
-                                <label htmlFor="name" className={classNames({ 'p-error': errors.name })}>Subject*</label>
-                            </span>
-                            {getFormErrorMessage('name')}
                         </div>
-                        <h5> </h5>
-
-                        <div className="field">
-                            <span className="p-float-label">
-                                <Controller name="status" control={control} rules={{ required: 'Status is required.' }} render={({ field, fieldState }) => (
-                                    <Dropdown id={field.name} options={statusOptions} {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
-                                )} />
-                                <label htmlFor="name" className={classNames({ 'p-error': errors.name })}>Status*</label>
-                            </span>
-                            {getFormErrorMessage('name')}
-                        </div>
-
-                        <div className="field">
-                            <span className="p-float-label">
-                                <Controller name="urgency" control={control} rules={{ required: 'Urgency is required.' }} render={({ field, fieldState }) => (
-                                    <Dropdown id={field.name} options={urgencyOptions} {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
-                                )} />
-                                <label htmlFor="name" className={classNames({ 'p-error': errors.name })}>Urgency*</label>
-                            </span>
-                            {getFormErrorMessage('name')}
-                        </div>
-
-                        <div className="field">
-                            <span className="p-float-label">
-                                <Controller name="impact" control={control} rules={{ required: 'Impact is required.' }} render={({ field, fieldState }) => (
-                                    <Dropdown id={field.name} options={impactOptions} {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
-                                )} />
-                                <label htmlFor="name" className={classNames({ 'p-error': errors.name })}>Impact*</label>
-                            </span>
-                            {getFormErrorMessage('name')}
-                        </div>
-
-                        <div className="field">
-                            <span className="p-float-label">
-                                <Controller name="priority" control={control} rules={{ required: 'Priority is required.' }} render={({ field, fieldState }) => (
-                                    <Dropdown id={field.name} options={priorityOptions} {...field} className={classNames({ 'p-invalid': fieldState.invalid })} />
-                                )} />
-                                <label htmlFor="name" className={classNames({ 'p-error': errors.name })}>Priority*</label>
-                            </span>
-                            {getFormErrorMessage('name')}
-                        </div>
-
-                        <div className="field">
-                            <span className="p-float-label">
-                                <Controller name="ticketIssue" control={control} rules={{ required: 'ticketIssue is required.' }} render={({ field, fieldState }) => (
-                                    <InputTextarea rows={10} cols={70} id={field.name} {...field} toggleMask className={classNames({ 'p-invalid': fieldState.invalid })} />
-                                )} />
-                                <label htmlFor="ticketIssue" className={classNames({ 'p-error': errors.ticketIssue })}>Please describe your technical issue.</label>
-                            </span>
-                            {getFormErrorMessage('ticketIssue')}
-                        </div>
-                        <Button type="submit" label="Submit" className="mt-2" />
-                    </form>
-                </div>
-            </div>
-        </div>
+                        </form>
+                  }
+              </div>
+          </div>
+      </div>
     );
 }
-
-const comparisonFn = function (prevProps, nextProps) {
-    return prevProps.location.pathname === nextProps.location.pathname;
-};
-
-export default React.memo(Ticket, comparisonFn);

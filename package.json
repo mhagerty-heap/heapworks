@@ -39,17 +39,23 @@
         "eject": "react-scripts eject"
     },
     "engines": {
-      "node": "16.x"
+        "node": "16.x"
     },
     "eslintConfig": {
         "extends": [
             "react-app"
         ]
     },
+    "overrides": {
+        "react-error-overlay": "6.0.9"
+    },
     "browserslist": [
         ">0.2%",
         "not dead",
         "not ie <= 11",
         "not op_mini all"
-    ]
+    ],
+    "devDependencies": {
+        "react-error-overlay": "^6.0.9"
+    }
 }

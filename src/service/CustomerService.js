@@ -26,18 +26,18 @@ export class CustomerService {
             .then(res => res.data.data);
     }
 
-    // getCustomersTickets() {
-    //     return axios.get('assets/demo/data/heapworksTickets.json')
-    //         .then(res => res.data.data);
-    // }
-
-    getCustomersProblems() {
-        return axios.get('assets/demo/data/customers-problems.json')
+    getTickets() {
+        return axios.get('assets/demo/data/heapworksTickets.json')
             .then(res => res.data.data);
     }
 
-    getCustomersChanges() {
-        return axios.get('assets/demo/data/customers-changes.json')
+    getProblems() {
+        return axios.get('assets/demo/data/heapworksProblems.json')
+            .then(res => res.data.data);
+    }
+
+    getChanges() {
+        return axios.get('assets/demo/data/heapworksChanges.json')
             .then(res => res.data.data);
     }
 

@@ -21,7 +21,11 @@ import CreateNewProblem from "./components/CreateNewProblem";
 import CreateNewArticle from "./components/CreateNewArticle";
 import UserSettings from "./components/UserSettings";
 import ArticlesList from "./components/ArticlesList";
-import Ticket from "./components/Ticket";
+import { Ticket } from "./components/Ticket";
+//import TicketsListTest from "./components/TicketsListTest";
+import { Toast } from 'primereact/toast';
+
+
 
 import 'primereact/resources/primereact.css';
 import 'primeicons/primeicons.css';
@@ -214,17 +218,17 @@ const App = () => {
 
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
-            
+
             <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
 
-            <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
-                mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
+            <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode} mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
 
             <div className="layout-sidebar" onClick={onSidebarClick}>
                 <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
             </div>
 
             <div className="layout-main-container">
+
                 <div className="layout-main">
                     <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
                     <Route path="/ticketsList" component={TicketsList} />

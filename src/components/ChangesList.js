@@ -1,415 +1,202 @@
-import React, { useEffect, useState } from 'react';
-import { Chart } from 'primereact/chart';
-import { classNames } from 'primereact/utils';
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import React, { useEffect, useState, useRef } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
-import { Button } from 'primereact/button';
-import { ProgressBar } from 'primereact/progressbar';
-import { Calendar } from 'primereact/calendar';
-import { MultiSelect } from 'primereact/multiselect';
-import { Slider } from 'primereact/slider';
-import { TriStateCheckbox } from 'primereact/tristatecheckbox';
-import { ToggleButton } from 'primereact/togglebutton';
-import { Rating } from 'primereact/rating';
 import { CustomerService } from '../service/CustomerService';
-import { ProductService } from '../service/ProductService';
+import { Divider } from 'primereact/divider';
+import { Ticket } from './Ticket';
+import { Calendar } from 'primereact/calendar';
+import { InputText } from 'primereact/inputtext';
+import { Editor } from 'primereact/editor';
+import { Button } from 'primereact/button';
+import { Toast } from 'primereact/toast';
+import { Dropdown } from 'primereact/dropdown';
 
-const lineData = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-        {
-            label: 'Last Year',
-            data: [6500, 5900, 8000, 8100, 5600, 5500, 4000],
-            fill: false,
-            backgroundColor: '#2f4860',
-            borderColor: '#2f4860',
-            tension: .4
-        },
-        {
-            label: 'This Year',
-            data: [2800, 4800, 4000, 1900, 8600, 2700, 9000],
-            fill: false,
-            backgroundColor: '#00bb7e',
-            borderColor: '#00bb7e',
-            tension: .4
-        }
-    ]
-};
 
 const ChangesList = (props) => {
-    const [lineOptions, setLineOptions] = useState(null)
-    const [customers1, setCustomers1] = useState(null);
-    const [customers2, setCustomers2] = useState([]);
-    const [customers3, setCustomers3] = useState([]);
-    const [filters1, setFilters1] = useState(null);
-    const [loading1, setLoading1] = useState(true);
-    const [loading2, setLoading2] = useState(true);
-    const [idFrozen, setIdFrozen] = useState(false);
-    const [products, setProducts] = useState([]);
-    const [expandedRows, setExpandedRows] = useState(null);
+    const [initiallyRetrievedTicketData, setInitiallyRetrievedTicketData] = useState('');  // initially retrieved ticket data pulled from CustomerService
+    const [selectedTicket, setSelectedTicket] = useState('');  // selected ticket in DataTable
+    const customerService = new CustomerService(); // CustomerService is used to request ticket json data
+    const [ticketNumber, setTicketNumber] = useState('');
+    const [requestorName, setRequestorName] = useState('');
+    const [requestorEmail, setRequestorEmail] = useState('');
+    const [subject, setSubject] = useState('');
+    const [status, setStatus] = useState('');
+    const [urgency, setUrgency] = useState('');
+    const [impact, setImpact] = useState('');
+    const [priority, setPriority] = useState('');
+    const [detailedDescription, setDetailedDescription] = useState('');
+    const [requestedDate, setRequestedDate] = useState('');
+    const [requestedTime, setRequestedTime] = useState('');
+    const updateTicketSuccessMessage = useRef(null);
+    const updateTicketFailMessage = useRef(null);
+    const [filters, setFilters] = useState('');
 
-    const applyLightTheme = () => {
-      const lineOptions = {
-          plugins: {
-              legend: {
-                  labels: {
-                      color: '#495057'
-                  }
-              }
-          },
-          scales: {
-              x: {
-                  ticks: {
-                      color: '#495057'
-                  },
-                  grid: {
-                      color: '#ebedef',
-                  }
-              },
-              y: {
-                  ticks: {
-                      color: '#495057'
-                  },
-                  grid: {
-                      color: '#ebedef',
-                  }
-              },
-          }
-      };
-      setLineOptions(lineOptions)
-    }
+    // make request to get local JSON data using CustomerService, and set to localTicketData, passing blank [] method to only load this data once on render...this was preventing change to sessionStorage
+    // useEffect(() => {loadInitialData();}, []);
 
-    const applyDarkTheme = () => {
-      const lineOptions = {
-          plugins: {
-              legend: {
-                  labels: {
-                      color: '#000000'
-                  }
-              }
-          },
-          scales: {
-              x: {
-                  ticks: {
-                      color: '#000000'
-                  },
-                  grid: {
-                      color: 'rgba(160, 167, 181, .3)',
-                  }
-              },
-              y: {
-                  ticks: {
-                      color: '#000000'
-                  },
-                  grid: {
-                      color: 'rgba(160, 167, 181, .3)',
-                  }
-              },
-          }
-      };
-      setLineOptions(lineOptions)
+    useEffect(() => {
+        customerService.getChanges().then(data => { setInitiallyRetrievedTicketData(data)}); // get ticket data from locally stored json file
+        if ("changesLocalCopy" in sessionStorage && sessionStorage.getItem("changesLocalCopy") !== null && sessionStorage.getItem("changesLocalCopy") !== '""') { // check if data already exists in sessionStorage
+          //console.log('ticketsLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
+        } else {
+          const ticketsString = JSON.stringify(initiallyRetrievedTicketData); // stringify initiallyRetrievedTicketData, required for sessionStorage
+          const ticketsLocalCopy = sessionStorage.setItem('changesLocalCopy', ticketsString); // store ticketsLocalCopy key data in localStorage
+        }
+
+    }); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const ticketsLocalCopyParsed = JSON.parse(sessionStorage.getItem("changesLocalCopy")); // set data to use in DataTable from sessionStorage key "ticketsLocalCopy"
 
 
-    }
-
-
-
-
-    const representatives = [
-        { name: "Amy Elsner", image: 'amyelsner.png' },
-        { name: "Anna Fali", image: 'annafali.png' },
-        { name: "Asiya Javayant", image: 'asiyajavayant.png' },
-        { name: "Bernardo Dominic", image: 'bernardodominic.png' },
-        { name: "Elwin Sharvill", image: 'elwinsharvill.png' },
-        { name: "Ioni Bowcher", image: 'ionibowcher.png' },
-        { name: "Ivan Magalhaes", image: 'ivanmagalhaes.png' },
-        { name: "Onyama Limba", image: 'onyamalimba.png' },
-        { name: "Stephen Shaw", image: 'stephenshaw.png' },
-        { name: "XuXue Feng", image: 'xuxuefeng.png' }
+    const statusDropdownOptions = [
+      {label: 'Open', value: 'Open'},
+      {label: 'Pending', value: 'Pending'},
+      {label: 'Resolved', value: 'Resolved'},
+      {label: 'Closed', value: 'Closed'}
     ];
 
-    const statuses = [
-        'open', 'closed'
+    const impactUrgencyDropdownOptions = [
+      {label: 'Low', value: 'Low'},
+      {label: 'Medium', value: 'Medium'},
+      {label: 'High', value: 'High'}
     ];
 
-    // const statuses = [
-    //     'unqualified', 'qualified', 'new', 'negotiation', 'renewal', 'proposal'
-    // ];
+    const priorityDropdownOptions = [
+      {label: 'Low', value: 'Low'},
+      {label: 'Medium', value: 'Medium'},
+      {label: 'High', value: 'High'},
+      {label: 'Urgent', value: 'Urgent'}
+    ];
 
-    const customerService = new CustomerService();
-    const productService = new ProductService();
+    const onRowSelect = (event) => {
+      console.log("onRowSelect event.data.ticketNumber =  " + event.data.ticketNumber);
+      setTicketNumber(event.data.ticketNumber);
+      setRequestorName(event.data.requestorName);
+      setRequestorEmail(event.data.requestorEmail);
+      setRequestedDate(event.data.requestedDate);
+      setRequestedTime(event.data.requestedTime);
+      setSubject(event.data.subject);
+      setStatus(event.data.status);
+      setUrgency(event.data.urgency);
+      setImpact(event.data.impact);
+      setPriority(event.data.priority);
+    };
 
-    const balanceTemplate = (rowData) => {
-        return (
-            <span className="text-bold">
-                {formatCurrency(rowData.balance)}
-            </span>
-        )
-    }
-
-    const getCustomers = (data) => {
-        return [...data || []].map(d => {
-            d.date = new Date(d.date);
-            return d;
-        });
-    }
+    const onRowUnselect = (event) => {
+      console.log("ticket unselected");
+    };
 
     const formatDate = (value) => {
-        return value.toLocaleDateString('en-US', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-        });
-    }
-
-    const formatCurrency = (value) => {
-        return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-    }
-
-    const initFilters1 = () => {
-        setFilters1({
-            'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
-            'name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-            'country.name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-            'representative': { value: null, matchMode: FilterMatchMode.IN },
-            'date': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
-            'balance': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-            'status': { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-            'activity': { value: null, matchMode: FilterMatchMode.BETWEEN },
-            'verified': { value: null, matchMode: FilterMatchMode.EQUALS }
-        });
-    }
-
-
-    const countryBodyTemplate = (rowData) => {
-        return (
-            <React.Fragment>
-                <img alt="flag" src="assets/demo/images/flags/flag_placeholder.png" className={`flag flag-${rowData.country.code}`} width={30} />
-                <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }} className="image-text">{rowData.country.name}</span>
-            </React.Fragment>
-        );
-    }
-
-    const filterClearTemplate = (options) => {
-        return <Button type="button" icon="pi pi-times" onClick={options.filterClearCallback} className="p-button-secondary"></Button>;
-    }
-
-    const filterApplyTemplate = (options) => {
-        return <Button type="button" icon="pi pi-check" onClick={options.filterApplyCallback} className="p-button-success"></Button>
-    }
-
-    const representativeBodyTemplate = (rowData) => {
-        const representative = rowData.representative;
-        return (
-            <React.Fragment>
-                <img alt={representative.name} src={`images/avatar/${representative.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} width={32} style={{ verticalAlign: 'middle' }} />
-                <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }} className="image-text">{representative.name}</span>
-            </React.Fragment>
-        );
-    }
-
-    const representativeFilterTemplate = (options) => {
-        return (<>
-            <div className="mb-3 text-bold">Agent Picker</div>
-            <MultiSelect value={options.value} options={representatives} itemTemplate={representativesItemTemplate} onChange={(e) => options.filterCallback(e.value)} optionLabel="name" placeholder="Any" className="p-column-filter" />
-        </>
-        )
-    }
-
-    const representativesItemTemplate = (option) => {
-        return (
-            <div className="p-multiselect-representative-option">
-                <img alt={option.name} src={`assets/demo/images/avatar/${option.image}`} width={32} style={{ verticalAlign: 'middle' }} />
-                <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }} className="image-text">{option.name}</span>
-            </div>
-        );
+        return new Date(value).toLocaleDateString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric'});
     }
 
     const dateBodyTemplate = (rowData) => {
-        return formatDate(rowData.date);
+        return formatDate(rowData.requestedDate);
+        //return rowData.requestedDate;
     }
 
     const dateFilterTemplate = (options) => {
         return <Calendar value={options.value} onChange={(e) => options.filterCallback(e.value, options.index)} dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" mask="99/99/9999" />
     }
 
-    const balanceBodyTemplate = (rowData) => {
-        //return formatCurrency(rowData.balance);
-        return rowData.balance;
-    }
-
-    const balanceFilterTemplate = (options) => {
-        return <InputNumber value={options.value} onChange={(e) => options.filterCallback(e.value, options.index)} mode="currency" currency="USD" locale="en-US" />
-    }
-
-    const statusBodyTemplate = (rowData) => {
-        return <span className={`customer-badge status-${rowData.status}`}>{rowData.status}</span>;
-    }
-
-    const statusFilterTemplate = (options) => {
-        return <Dropdown value={options.value} options={statuses} onChange={(e) => options.filterCallback(e.value, options.index)} itemTemplate={statusItemTemplate} placeholder="Select a Status" className="p-column-filter" showClear />;
-    }
-
-    const statusItemTemplate = (option) => {
-        return <span className={`customer-badge status-${option}`}>{option}</span>;
-    }
-
-    const activityBodyTemplate = (rowData) => {
-        return <ProgressBar value={rowData.activity} showValue={false} style={{ height: '.5rem' }}></ProgressBar>;
-    }
-
-    const activityFilterTemplate = (options) => {
-        return (
-            <React.Fragment>
-                <Slider value={options.value} onChange={(e) => options.filterCallback(e.value)} range className="m-3"></Slider>
-                <div className="flex align-items-center justify-content-between px-2">
-                    <span>{options.value ? options.value[0] : 0}</span>
-                    <span>{options.value ? options.value[1] : 100}</span>
-                </div>
-            </React.Fragment>
-        )
-    }
-
-    const verifiedBodyTemplate = (rowData) => {
-        return <i className={classNames('pi', { 'text-green-500 pi-check-circle': rowData.verified, 'text-pink-500 pi-times-circle': !rowData.verified })}></i>;
-    }
-
-    const verifiedFilterTemplate = (options) => {
-        return <TriStateCheckbox value={options.value} onChange={(e) => options.filterCallback(e.value)} />
-    }
-
-    const expandAll = () => {
-        let _expandedRows = {};
-        products.forEach(p => _expandedRows[`${p.id}`] = true);
-
-        setExpandedRows(_expandedRows);
-    }
-
-    const collapseAll = () => {
-        setExpandedRows(null);
-    }
-
-    const amountBodyTemplate = (rowData) => {
-        return formatCurrency(rowData.amount);
-    }
-
-    const statusOrderBodyTemplate = (rowData) => {
-        return <span className={`order-badge order-${rowData.status.toLowerCase()}`}>{rowData.status}</span>;
-    }
-
-    const searchBodyTemplate = () => {
-        return <Button icon="pi pi-search" />;
-    }
-
-    const imageBodyTemplate = (rowData) => {
-        return <img src={`images/product/${rowData.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={rowData.image} className="shadow-2" width={100} />;
-    }
-
-    const priceBodyTemplate = (rowData) => {
-        return formatCurrency(rowData.price);
-    }
-
-    const ratingBodyTemplate = (rowData) => {
-        return <Rating value={rowData.rating} readOnly cancel={false} />;
-    }
-
-    const statusBodyTemplate2 = (rowData) => {
-        return <span className={`product-badge status-${rowData.inventoryStatus.toLowerCase()}`}>{rowData.inventoryStatus}</span>;
-    }
-
-    const rowExpansionTemplate = (data) => {
-        return (
-            <div className="orders-subtable">
-                <h5>Orders for {data.name}</h5>
-                <DataTable value={data.orders} responsiveLayout="scroll">
-                    <Column field="id" header="Id" sortable></Column>
-                    <Column field="customer" header="Customer" sortable></Column>
-                    <Column field="date" header="Date" sortable></Column>
-                    <Column field="amount" header="Amount" body={amountBodyTemplate} sortable></Column>
-                    <Column field="status" header="Status" body={statusOrderBodyTemplate} sortable></Column>
-                    <Column headerStyle={{ width: '4rem' }} body={searchBodyTemplate}></Column>
-                </DataTable>
-            </div>
-        );
-    }
-
-    const header = (
-        <div className="table-header-container">
-            <Button icon="pi pi-plus" label="Expand All" onClick={expandAll} className="mr-2 mb-2" />
-            <Button icon="pi pi-minus" label="Collapse All" onClick={collapseAll} className="mb-2" />
-        </div>
-    );
-
-    const headerTemplate = (data) => {
-        return (
-            <React.Fragment>
-                <img alt={data.representative.name} src={`images/avatar/${data.representative.image}`} width="32" style={{ verticalAlign: 'middle' }} />
-                <span className="image-text font-bold">{data.representative.name}</span>
-            </React.Fragment>
-        );
-    }
-
-    const footerTemplate = (data) => {
-        return (
-            <React.Fragment>
-                <td colSpan="4" style={{ textAlign: 'right' }} className="text-bold pr-6">Total Customers</td>
-                <td>{calculateCustomerTotal(data.representative.name)}</td>
-            </React.Fragment>
-        );
-    }
-
-    const calculateCustomerTotal = (name) => {
-        let total = 0;
-
-        if (customers3) {
-            for (let customer of customers3) {
-                if (customer.representative.name === name) {
-                    total++;
-                }
-            }
-        }
-
-        return total;
-    }
-
-    useEffect(() => {
-
-        customerService.getCustomersChanges().then(data => { setCustomers1(getCustomers(data)); setLoading1(false) });
-
-        initFilters1();
-
-        if (props.colorMode === 'light') {
-            applyLightTheme();
-        } else {
-            applyDarkTheme();
-        }
-    }, [props.colorMode]); // eslint-disable-line react-hooks/exhaustive-deps
+    const updateTicket = (event) => { //submits ticket form entry data into sessionStorage
+      event.preventDefault();
+      var ticketIndex = ticketsLocalCopyParsed.findIndex(item => item.ticketNumber === ticketNumber);
+      ticketsLocalCopyParsed[ticketIndex].subject = subject;
+      ticketsLocalCopyParsed[ticketIndex].status = status;
+      ticketsLocalCopyParsed[ticketIndex].urgency = urgency;
+      ticketsLocalCopyParsed[ticketIndex].impact = impact;
+      ticketsLocalCopyParsed[ticketIndex].priority = priority;
+      ticketsLocalCopyParsed[ticketIndex].detailedDescription = detailedDescription;
+      const updatedTicketsString = JSON.stringify(ticketsLocalCopyParsed); //  array into json string to store
+      sessionStorage.setItem('changesLocalCopy', updatedTicketsString); // store updated ticket data in localStorage
+      console.log("Ticket Updated");
+      updateTicketSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: 'Ticket Updated'});
+    };
 
     return (
         <div className="grid p-fluid">
           <div className="col-12 card">
               <h5>Changes &nbsp;&nbsp;
-                <a href="/createNewChange">
+                <a href="/createNewTicket">
                   <button className="p-link layout-topbar-button" >
                     <i className="pi pi-plus"/>
                     </button>
                 </a>
               </h5>
-              <DataTable value={customers1} paginator className="p-datatable-gridlines" showGridlines rows={10}
-                  dataKey="id" filters={filters1} filterDisplay="menu" loading={loading1} responsiveLayout="scroll"
-                    emptyMessage="No customers found.">
-                    <Column header="Change Number" filterField="balance" dataType="numeric" style={{ minWidth: '10rem' }} body={balanceBodyTemplate} filter filterElement={balanceFilterTemplate} />
-                  <Column field="name" header="Name" filter filterPlaceholder="Search by name" style={{ minWidth: '12rem' }} />
-                  <Column header="Date" filterField="date" dataType="date" style={{ minWidth: '10rem' }} body={dateBodyTemplate}
-                      filter filterElement={dateFilterTemplate} />
-
-                  <Column field="status" header="Status" filterMenuStyle={{ width: '14rem' }} style={{ minWidth: '12rem' }} body={statusBodyTemplate} filter filterElement={statusFilterTemplate} />
-                  <Column field="activity" header="Past Activity" showFilterMatchModes={false} style={{ minWidth: '12rem' }} body={activityBodyTemplate} filter filterElement={activityFilterTemplate} />
-
+              <DataTable filters={filters} value={ticketsLocalCopyParsed} selectionMode="single" selection={selectedTicket} onSelectionChange={event => setSelectedTicket(event.value)} onRowSelect={onRowSelect} onRowUnselect={onRowUnselect} paginator className="p-datatable-gridlines" showGridlines rows={5} dataKey="ticketNumber">
+                    <Column header="Change Number" field="ticketNumber" filter filterPlaceholder="Search by Ticket Number" style={{ minWidth: '10rem' }} />
+                    <Column header="Requestor Name" field="requestorName" filter filterPlaceholder="Search by Requestor Name" style={{ minWidth: '12rem' }} />
+                    <Column header="Status" field="status" filter filterPlaceholder="Search by Status" style={{ minWidth: '12rem' }} />
+                    <Column header="Date" filterField="requestedDate" dataType="date" style={{ minWidth: '10rem' }} body={dateBodyTemplate} filterElement={dateFilterTemplate} />
               </DataTable>
+
+              <Divider align="left">
+                <div className="inline-flex align-items-center">
+                  <i className="pi pi-ticket mr-2"></i>
+                  <b>Change Detail</b>
+                </div>
+              </Divider>
+              <form>
+              <Toast ref={updateTicketSuccessMessage} />
+              <div className="grid">
+                  <div className="col-2">
+                    <label htmlFor="ticketNumberField">Change Number</label>
+                    <InputText disabled id="ticketNumberField" value={ticketNumber} onChange={(e) => setTicketNumber(e.target.value)} />
+                  </div>
+                  <div className="col-2">
+                    <label htmlFor="requestorNameField">Requestor Name</label>
+                    <InputText disabled id="requestorNameField" value={requestorName} onChange={(e) => setRequestorName(e.target.value)} />
+                  </div>
+                  <div className="col-2">
+                    <label htmlFor="requestorEmailField">Requestor Email</label>
+                    <InputText disabled id="requestorEmailField" value={requestorEmail} onChange={(e) => setRequestorEmail(e.target.value)} />
+                  </div>
+                  <div className="col-2">
+                    <label htmlFor="requestedDateField">Requested Date</label>
+                    <InputText disabled id="requestedDateField" value={requestedDate} onChange={(e) => setRequestedDate(e.target.value)} />
+                  </div>
+                  <div className="col-2">
+                    <label htmlFor="requestedTimeField">Requested Time</label>
+                    <InputText disabled id="requestedTimeField" value={requestedTime} onChange={(e) => setRequestedTime(e.target.value)} />
+                  </div>
+                  <div className="col-2">
+                  </div>
+                  <div className="col-2">
+                    <label htmlFor="subjectField">Change Subject</label>
+                    <InputText id="subjectField" value={subject} onChange={(e) => setSubject(e.target.value)} />
+                  </div>
+                  <div className="col-2">
+                    <label htmlFor="statusField">Change Status</label>
+                    <Dropdown value={status} options={statusDropdownOptions} onChange={(e) => setStatus(e.target.value)} placeholder="Status"/>
+                  </div>
+                  <div className="col-2">
+                    <label htmlFor="urgencyField">Change Urgency</label>
+                    <Dropdown value={urgency} options={impactUrgencyDropdownOptions} onChange={(e) => setUrgency(e.value)} placeholder="Urgency"/>
+                  </div>
+                  <div className="col-2">
+                    <label htmlFor="impactField">Change Impact</label>
+                    <Dropdown value={impact} options={impactUrgencyDropdownOptions} onChange={(e) => setImpact(e.value)} placeholder="Impact"/>
+                  </div>
+                  <div className="col-2">
+                    <label htmlFor="priorityField">Change Priority</label>
+                    <Dropdown value={priority} options={priorityDropdownOptions} onChange={(e) => setPriority(e.value)} placeholder="Priority"/>
+                  </div>
+                  <div className="col-3">
+                  </div>
+                  <div className="col-3">
+                  </div>
+                  <div className="col-12">
+                    <label htmlFor="detailedDescriptionField">Detailed Description</label>
+                    <Editor style={{height:'75px'}} id="detailedDescriptionField" value={selectedTicket.detailedDescription} onTextChange={(e) => setDetailedDescription(e.htmlValue)} />
+                  </div>
+                  <div className="col-1">
+                    <Button id="updateTicket" name="updateTicket" label="Update Change" onClick={updateTicket}/>
+                  </div>
+
+              </div>
+              </form>
           </div>
 
         </div>
