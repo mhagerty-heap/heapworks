@@ -38,14 +38,14 @@ const ChangesList = (props) => {
     useEffect(() => {
         customerService.getChanges().then(data => { setInitiallyRetrievedTicketData(data)}); // get ticket data from locally stored json file
         if ("changesLocalCopy" in sessionStorage && sessionStorage.getItem("changesLocalCopy") !== null && sessionStorage.getItem("changesLocalCopy") !== '""') { // check if data already exists in sessionStorage
-          //console.log('ticketsLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
+          //console.log('changesLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
         } else {
           const ticketsString = JSON.stringify(initiallyRetrievedTicketData); // stringify initiallyRetrievedTicketData, required for sessionStorage
-          const ticketsLocalCopy = sessionStorage.setItem('changesLocalCopy', ticketsString); // store ticketsLocalCopy key data in localStorage
+          const changesLocalCopy = sessionStorage.setItem('changesLocalCopy', ticketsString); // store changesLocalCopy key data in localStorage
         }
     });
 
-    const ticketsLocalCopyParsed = JSON.parse(sessionStorage.getItem("changesLocalCopy")); // set data to use in DataTable from sessionStorage key "ticketsLocalCopy"
+    const ticketsLocalCopyParsed = JSON.parse(sessionStorage.getItem("changesLocalCopy")); // parse object from sessionStorage "changesLocalCopy" string to use in DataTable
 
 
     const statusDropdownOptions = [
@@ -113,23 +113,30 @@ const ChangesList = (props) => {
         ticketsLocalCopyParsed[ticketIndex].detailedDescription = detailedDescription;
         const updatedTicketsString = JSON.stringify(ticketsLocalCopyParsed); //  array into json string to store
         sessionStorage.setItem('changesLocalCopy', updatedTicketsString); // store updated ticket data in localStorage
-        console.log("Ticket Updated");
+        console.log("Change Updated");
         updateTicketSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: 'Change Updated'});
       }
     };
+
+    const clearSessionStorage = () => {
+      sessionStorage.removeItem('changesLocalCopy');
+    }
 
     return (
         <div className="grid p-fluid">
           <div className="col-12 card">
               <h5>Changes &nbsp;&nbsp;
-                <a href="/createNewTicket">
+                <a href="/createNewChange">
                   <button className="p-link layout-topbar-button" >
                     <i className="pi pi-plus"/>
                     </button>
-                </a>
+                </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button className="p-link layout-topbar-button" style={{ color: 'transparent' }} onClick={clearSessionStorage} >
+                  <i className="pi pi-minus"/>
+                </button>
               </h5>
               <DataTable sortField="ticketNumber" sortOrder={-1} filters={filters} value={ticketsLocalCopyParsed} selectionMode="single" selection={selectedTicket} onSelectionChange={event => setSelectedTicket(event.value)} onRowSelect={onRowSelect} onRowUnselect={onRowUnselect} paginator className="p-datatable-gridlines" showGridlines rows={5} dataKey="ticketNumber">
-                    <Column sortable header="Change Number" field="ticketNumber" filter filterPlaceholder="Search by Ticket Number" style={{ minWidth: '10rem' }} />
+                    <Column sortable header="Change Number" field="ticketNumber" filter filterPlaceholder="Search by Change Number" style={{ minWidth: '10rem' }} />
                     <Column sortable header="Requestor Name" field="requestorName" filter filterPlaceholder="Search by Requestor Name" style={{ minWidth: '12rem' }} />
                     <Column sortable header="Status" field="status" filter filterPlaceholder="Search by Status" style={{ minWidth: '12rem' }} />
                     <Column header="Date" filterField="requestedDate" dataType="date" style={{ minWidth: '10rem' }} body={dateBodyTemplate} filterElement={dateFilterTemplate} />
@@ -141,51 +148,49 @@ const ChangesList = (props) => {
                   <b>Change Detail</b>
                 </div>
               </Divider>
-              <form>
+              <form id="updateChangeForm" name="updateChangeForm">
               <Toast ref={updateTicketSuccessMessage} />
               <Toast ref={updateTicketFailureMessage} />
               <div className="grid">
                   <div className="col-2">
                     <label htmlFor="ticketNumberField">Change Number</label>
-                    <InputText disabled id="ticketNumberField" value={ticketNumber} onChange={(e) => setTicketNumber(e.target.value)} />
+                    <InputText disabled id="ticketNumberField" name="ticketNumberField" value={ticketNumber} onChange={(e) => setTicketNumber(e.target.value)} />
                   </div>
                   <div className="col-2">
                     <label htmlFor="requestorNameField">Requestor Name</label>
-                    <InputText disabled id="requestorNameField" value={requestorName} onChange={(e) => setRequestorName(e.target.value)} />
+                    <InputText disabled id="requestorNameField" name="requestorNameField" value={requestorName} onChange={(e) => setRequestorName(e.target.value)} />
                   </div>
                   <div className="col-2">
                     <label htmlFor="requestorEmailField">Requestor Email</label>
-                    <InputText disabled id="requestorEmailField" value={requestorEmail} onChange={(e) => setRequestorEmail(e.target.value)} />
+                    <InputText disabled id="requestorEmailField" name="requestorEmailField" value={requestorEmail} onChange={(e) => setRequestorEmail(e.target.value)} />
                   </div>
                   <div className="col-2">
                     <label htmlFor="requestedDateField">Requested Date</label>
-                    <InputText disabled id="requestedDateField" value={requestedDate} onChange={(e) => setRequestedDate(e.target.value)} />
+                    <InputText disabled id="requestedDateField" name="requestedDateField" value={requestedDate} onChange={(e) => setRequestedDate(e.target.value)} />
                   </div>
                   <div className="col-2">
-                    <label htmlFor="requestedTimeField">Requested Time</label>
-                    <InputText disabled id="requestedTimeField" value={requestedTime} onChange={(e) => setRequestedTime(e.target.value)} />
                   </div>
                   <div className="col-2">
                   </div>
                   <div className="col-2">
                     <label htmlFor="subjectField">Change Subject</label>
-                    <InputText id="subjectField" value={subject} onChange={(e) => setSubject(e.target.value)} />
+                    <InputText id="subjectField" name="subjectField" value={subject} onChange={(e) => setSubject(e.target.value)} />
                   </div>
                   <div className="col-2">
                     <label htmlFor="statusField">Change Status</label>
-                    <Dropdown value={status} options={statusDropdownOptions} onChange={(e) => setStatus(e.target.value)} placeholder="Status"/>
+                    <Dropdown value={status} id="statusField" name="statusField" options={statusDropdownOptions} onChange={(e) => setStatus(e.target.value)} placeholder="Status"/>
                   </div>
                   <div className="col-2">
                     <label htmlFor="urgencyField">Change Urgency</label>
-                    <Dropdown value={urgency} options={impactUrgencyDropdownOptions} onChange={(e) => setUrgency(e.value)} placeholder="Urgency"/>
+                    <Dropdown value={urgency} id="urgencyField" name="urgencyField" options={impactUrgencyDropdownOptions} onChange={(e) => setUrgency(e.value)} placeholder="Urgency"/>
                   </div>
                   <div className="col-2">
                     <label htmlFor="impactField">Change Impact</label>
-                    <Dropdown value={impact} options={impactUrgencyDropdownOptions} onChange={(e) => setImpact(e.value)} placeholder="Impact"/>
+                    <Dropdown value={impact} id="impactField" name="impactField" options={impactUrgencyDropdownOptions} onChange={(e) => setImpact(e.value)} placeholder="Impact"/>
                   </div>
                   <div className="col-2">
                     <label htmlFor="priorityField">Change Priority</label>
-                    <Dropdown value={priority} options={priorityDropdownOptions} onChange={(e) => setPriority(e.value)} placeholder="Priority"/>
+                    <Dropdown value={priority} id="priorityField" name="priorityField" options={priorityDropdownOptions} onChange={(e) => setPriority(e.value)} placeholder="Priority"/>
                   </div>
                   <div className="col-3">
                   </div>
@@ -193,7 +198,7 @@ const ChangesList = (props) => {
                   </div>
                   <div className="col-12">
                     <label htmlFor="detailedDescriptionField">Detailed Description</label>
-                    <Editor style={{height:'75px'}} id="detailedDescriptionField" value={selectedTicket.detailedDescription} onTextChange={(e) => setDetailedDescription(e.htmlValue)} />
+                    <Editor style={{height:'75px'}} id="detailedDescriptionField" name="detailedDescriptionField" value={selectedTicket.detailedDescription} onTextChange={(e) => setDetailedDescription(e.htmlValue)} />
                   </div>
                   <div className="col-1">
                     <Button id="updateTicket" name="updateTicket" label="Update Change" onClick={updateTicket}/>

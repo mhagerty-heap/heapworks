@@ -148,7 +148,7 @@ const TicketsList = (props) => {
                   <b>Ticket Detail</b>
                 </div>
               </Divider>
-              <form id="updateForm" name="updateForm">
+              <form id="updateTicketForm" name="updateTicketForm">
               <Toast ref={updateTicketSuccessMessage} />
               <Toast ref={updateTicketFailureMessage} />
               <div className="grid">
