@@ -29,7 +29,7 @@ const ChangesList = (props) => {
     const [requestedDate, setRequestedDate] = useState('');
     const [requestedTime, setRequestedTime] = useState('');
     const updateTicketSuccessMessage = useRef(null);
-    const updateTicketFailMessage = useRef(null);
+    const updateTicketFailureMessage = useRef(null);
     const [filters, setFilters] = useState('');
 
     // make request to get local JSON data using CustomerService, and set to localTicketData, passing blank [] method to only load this data once on render...this was preventing change to sessionStorage
@@ -43,8 +43,7 @@ const ChangesList = (props) => {
           const ticketsString = JSON.stringify(initiallyRetrievedTicketData); // stringify initiallyRetrievedTicketData, required for sessionStorage
           const ticketsLocalCopy = sessionStorage.setItem('changesLocalCopy', ticketsString); // store ticketsLocalCopy key data in localStorage
         }
-
-    }); // eslint-disable-line react-hooks/exhaustive-deps
+    });
 
     const ticketsLocalCopyParsed = JSON.parse(sessionStorage.getItem("changesLocalCopy")); // set data to use in DataTable from sessionStorage key "ticketsLocalCopy"
 
@@ -103,16 +102,20 @@ const ChangesList = (props) => {
     const updateTicket = (event) => { //submits ticket form entry data into sessionStorage
       event.preventDefault();
       var ticketIndex = ticketsLocalCopyParsed.findIndex(item => item.ticketNumber === ticketNumber);
-      ticketsLocalCopyParsed[ticketIndex].subject = subject;
-      ticketsLocalCopyParsed[ticketIndex].status = status;
-      ticketsLocalCopyParsed[ticketIndex].urgency = urgency;
-      ticketsLocalCopyParsed[ticketIndex].impact = impact;
-      ticketsLocalCopyParsed[ticketIndex].priority = priority;
-      ticketsLocalCopyParsed[ticketIndex].detailedDescription = detailedDescription;
-      const updatedTicketsString = JSON.stringify(ticketsLocalCopyParsed); //  array into json string to store
-      sessionStorage.setItem('changesLocalCopy', updatedTicketsString); // store updated ticket data in localStorage
-      console.log("Ticket Updated");
-      updateTicketSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: 'Change Updated'});
+      if (ticketIndex == "-1") { // if no item selected then index is -1
+        updateTicketFailureMessage.current.show({severity: 'info', summary: 'No Change', detail: 'Please select a Change'});
+      } else {
+        ticketsLocalCopyParsed[ticketIndex].subject = subject;
+        ticketsLocalCopyParsed[ticketIndex].status = status;
+        ticketsLocalCopyParsed[ticketIndex].urgency = urgency;
+        ticketsLocalCopyParsed[ticketIndex].impact = impact;
+        ticketsLocalCopyParsed[ticketIndex].priority = priority;
+        ticketsLocalCopyParsed[ticketIndex].detailedDescription = detailedDescription;
+        const updatedTicketsString = JSON.stringify(ticketsLocalCopyParsed); //  array into json string to store
+        sessionStorage.setItem('changesLocalCopy', updatedTicketsString); // store updated ticket data in localStorage
+        console.log("Ticket Updated");
+        updateTicketSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: 'Change Updated'});
+      }
     };
 
     return (
@@ -125,10 +128,10 @@ const ChangesList = (props) => {
                     </button>
                 </a>
               </h5>
-              <DataTable filters={filters} value={ticketsLocalCopyParsed} selectionMode="single" selection={selectedTicket} onSelectionChange={event => setSelectedTicket(event.value)} onRowSelect={onRowSelect} onRowUnselect={onRowUnselect} paginator className="p-datatable-gridlines" showGridlines rows={5} dataKey="ticketNumber">
-                    <Column header="Change Number" field="ticketNumber" filter filterPlaceholder="Search by Ticket Number" style={{ minWidth: '10rem' }} />
-                    <Column header="Requestor Name" field="requestorName" filter filterPlaceholder="Search by Requestor Name" style={{ minWidth: '12rem' }} />
-                    <Column header="Status" field="status" filter filterPlaceholder="Search by Status" style={{ minWidth: '12rem' }} />
+              <DataTable sortField="ticketNumber" sortOrder={-1} filters={filters} value={ticketsLocalCopyParsed} selectionMode="single" selection={selectedTicket} onSelectionChange={event => setSelectedTicket(event.value)} onRowSelect={onRowSelect} onRowUnselect={onRowUnselect} paginator className="p-datatable-gridlines" showGridlines rows={5} dataKey="ticketNumber">
+                    <Column sortable header="Change Number" field="ticketNumber" filter filterPlaceholder="Search by Ticket Number" style={{ minWidth: '10rem' }} />
+                    <Column sortable header="Requestor Name" field="requestorName" filter filterPlaceholder="Search by Requestor Name" style={{ minWidth: '12rem' }} />
+                    <Column sortable header="Status" field="status" filter filterPlaceholder="Search by Status" style={{ minWidth: '12rem' }} />
                     <Column header="Date" filterField="requestedDate" dataType="date" style={{ minWidth: '10rem' }} body={dateBodyTemplate} filterElement={dateFilterTemplate} />
               </DataTable>
 
@@ -140,6 +143,7 @@ const ChangesList = (props) => {
               </Divider>
               <form>
               <Toast ref={updateTicketSuccessMessage} />
+              <Toast ref={updateTicketFailureMessage} />
               <div className="grid">
                   <div className="col-2">
                     <label htmlFor="ticketNumberField">Change Number</label>
