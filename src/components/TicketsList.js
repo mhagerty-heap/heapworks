@@ -118,6 +118,10 @@ const TicketsList = (props) => {
       }
     };
 
+    const clearSessionStorage = () => {
+      sessionStorage.removeItem('ticketsLocalCopy');
+    }
+
     return (
         <div className="grid p-fluid">
           <div className="col-12 card">
@@ -126,7 +130,10 @@ const TicketsList = (props) => {
                   <button className="p-link layout-topbar-button" >
                     <i className="pi pi-plus"/>
                     </button>
-                </a>
+                </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button className="p-link layout-topbar-button" style={{ color: 'transparent' }} onClick={clearSessionStorage} >
+                  <i className="pi pi-minus"/>
+                </button>
               </h5>
               <DataTable sortField="ticketNumber" sortOrder={-1} filters={filters} value={ticketsLocalCopyParsed} selectionMode="single" selection={selectedTicket} onSelectionChange={event => setSelectedTicket(event.value)} onRowSelect={onRowSelect} onRowUnselect={onRowUnselect} paginator className="p-datatable-gridlines" showGridlines rows={5} dataKey="ticketNumber">
                     <Column sortable header="Ticket Number" field="ticketNumber" filter filterPlaceholder="Search by Ticket Number" style={{ minWidth: '10rem' }} />
@@ -141,51 +148,49 @@ const TicketsList = (props) => {
                   <b>Ticket Detail</b>
                 </div>
               </Divider>
-              <form>
+              <form id="updateForm" name="updateForm">
               <Toast ref={updateTicketSuccessMessage} />
               <Toast ref={updateTicketFailureMessage} />
               <div className="grid">
                   <div className="col-2">
                     <label htmlFor="ticketNumberField">Ticket Number</label>
-                    <InputText disabled id="ticketNumberField" value={ticketNumber} onChange={(e) => setTicketNumber(e.target.value)} />
+                    <InputText disabled id="ticketNumberField" name="ticketNumberField" value={ticketNumber} onChange={(e) => setTicketNumber(e.target.value)} />
                   </div>
                   <div className="col-2">
                     <label htmlFor="requestorNameField">Requestor Name</label>
-                    <InputText disabled id="requestorNameField" value={requestorName} onChange={(e) => setRequestorName(e.target.value)} />
+                    <InputText disabled id="requestorNameField" name="requestorNameField" value={requestorName} onChange={(e) => setRequestorName(e.target.value)} />
                   </div>
                   <div className="col-2">
                     <label htmlFor="requestorEmailField">Requestor Email</label>
-                    <InputText disabled id="requestorEmailField" value={requestorEmail} onChange={(e) => setRequestorEmail(e.target.value)} />
+                    <InputText disabled id="requestorEmailField" name="requestorEmailField" value={requestorEmail} onChange={(e) => setRequestorEmail(e.target.value)} />
                   </div>
                   <div className="col-2">
                     <label htmlFor="requestedDateField">Requested Date</label>
-                    <InputText disabled id="requestedDateField" value={requestedDate} onChange={(e) => setRequestedDate(e.target.value)} />
+                    <InputText disabled id="requestedDateField" name="requestedDateField" value={requestedDate} onChange={(e) => setRequestedDate(e.target.value)} />
                   </div>
                   <div className="col-2">
-                    <label htmlFor="requestedTimeField">Requested Time</label>
-                    <InputText disabled id="requestedTimeField" value={requestedTime} onChange={(e) => setRequestedTime(e.target.value)} />
                   </div>
                   <div className="col-2">
                   </div>
                   <div className="col-2">
                     <label htmlFor="subjectField">Ticket Subject</label>
-                    <InputText id="subjectField" value={subject} onChange={(e) => setSubject(e.target.value)} />
+                    <InputText id="subjectField" name="subjectField" value={subject} onChange={(e) => setSubject(e.target.value)} />
                   </div>
                   <div className="col-2">
                     <label htmlFor="statusField">Ticket Status</label>
-                    <Dropdown value={status} options={statusDropdownOptions} onChange={(e) => setStatus(e.target.value)} placeholder="Status"/>
+                    <Dropdown value={status} id="statusField" name="statusField" options={statusDropdownOptions} onChange={(e) => setStatus(e.target.value)} placeholder="Status"/>
                   </div>
                   <div className="col-2">
                     <label htmlFor="urgencyField">Ticket Urgency</label>
-                    <Dropdown value={urgency} options={impactUrgencyDropdownOptions} onChange={(e) => setUrgency(e.value)} placeholder="Urgency"/>
+                    <Dropdown value={urgency} id="urgencyField" name="urgencyField" options={impactUrgencyDropdownOptions} onChange={(e) => setUrgency(e.value)} placeholder="Urgency"/>
                   </div>
                   <div className="col-2">
                     <label htmlFor="impactField">Ticket Impact</label>
-                    <Dropdown value={impact} options={impactUrgencyDropdownOptions} onChange={(e) => setImpact(e.value)} placeholder="Impact"/>
+                    <Dropdown value={impact} id="impactField" name="impactField" options={impactUrgencyDropdownOptions} onChange={(e) => setImpact(e.value)} placeholder="Impact"/>
                   </div>
                   <div className="col-2">
                     <label htmlFor="priorityField">Ticket Priority</label>
-                    <Dropdown value={priority} options={priorityDropdownOptions} onChange={(e) => setPriority(e.value)} placeholder="Priority"/>
+                    <Dropdown value={priority} id="priorityField" name="priorityField" options={priorityDropdownOptions} onChange={(e) => setPriority(e.value)} placeholder="Priority"/>
                   </div>
                   <div className="col-3">
                   </div>
@@ -193,7 +198,7 @@ const TicketsList = (props) => {
                   </div>
                   <div className="col-12">
                     <label htmlFor="detailedDescriptionField">Detailed Description</label>
-                    <Editor style={{height:'75px'}} id="detailedDescriptionField" value={selectedTicket.detailedDescription} onTextChange={(e) => setDetailedDescription(e.htmlValue)} />
+                    <Editor style={{height:'75px'}} id="detailedDescriptionField" name="detailedDescriptionField" value={selectedTicket.detailedDescription} onTextChange={(e) => setDetailedDescription(e.htmlValue)} />
                   </div>
                   <div className="col-1">
                     <Button id="updateTicket" name="updateTicket" label="Update Ticket" onClick={updateTicket}/>
