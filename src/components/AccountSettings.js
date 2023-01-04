@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import SetupDomain from "./addAccountForm/SetupDomain";
 import SetupBusinessDays from "./addAccountForm/SetupBusinessDays";
 import SetupSla from "./addAccountForm/SetupSla";
@@ -60,13 +60,10 @@ function AccountSettings() {
 
   const [page, setPage] = useState(0);
   const [formData, setFormData] = useState({
-    nickname: "",
-    birthday: "",
-    otherFinancialInterests: "",
     supportUsername: "",
     helpdeskName: "",
     helpdeskDomain: "",
-    supportDays: "",
+    supportDays: [],
     supportHours: "",
     slaName: "",
     urgentResponseWithinTime: "",
@@ -89,12 +86,33 @@ function AccountSettings() {
 
   const formSubmitMessage = (e) => {
     //e.preventDefault(); // prevents page from reloading
+    console.log(e);
     if (formData.supportUsername) {
       formSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: ' Account Details Saved!'});
+      const accountSettingsString = JSON.stringify(formData); // stringify formData, required for sessionStorage
+      const accountSettingsLocalCopy = sessionStorage.setItem('accountSettingsLocalCopy', accountSettingsString); // store ticketsLocalCopy key data in localStorage
     } else {
       formFailMessage.current.show({severity: 'error', summary: 'Error:', detail: 'For Demo purposes, at a minimum, enter the Support Username'});
     }
   };
+
+  const clearSessionStorage = () => {
+    sessionStorage.removeItem('accountSettingsLocalCopy');
+  }
+
+
+  useEffect(() => {
+    if ("accountSettingsLocalCopy" in sessionStorage && sessionStorage.getItem("accountSettingsLocalCopy") !== null && sessionStorage.getItem("accountSettingsLocalCopy") !== '""') { // check if data already exists in sessionStorage
+      console.log('accountSettingsLocalCopy exists in sessionStorage'); // placeholder
+      const accountSettingsLocalCopyParsed = JSON.parse(sessionStorage.getItem("accountSettingsLocalCopy"));
+      setFormData(accountSettingsLocalCopyParsed);
+    } else {
+      console.log('accountSettingsLocalCopy does not exist in sessionStorage');
+      //const settingsString = JSON.stringify(initiallyRetrievedTicketData); // stringify initiallyRetrievedTicketData, required for sessionStorage
+      //const settingsLocalCopy = sessionStorage.setItem('ticketsLocalCopy', ticketsString); // store ticketsLocalCopy key data in localStorage
+    }
+  });
+
 
   return (
 
@@ -103,6 +121,10 @@ function AccountSettings() {
 
         <h5>Account Settings &nbsp;&nbsp;
           <Button label="Wizard" icon="pi pi-bolt" className="p-button-sm" onClick={() => onClick('displayBasic')}></Button>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button className="p-link layout-topbar-button" style={{ color: 'transparent' }} onClick={clearSessionStorage} >
+            <i className="pi pi-minus"/>
+          </button>
         </h5>
         <div className="field col-12 md:col-4"></div>
         <Messages ref={formSuccessMessage} />
