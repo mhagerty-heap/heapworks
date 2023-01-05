@@ -170,7 +170,7 @@ function AccountSettings() {
           <div className="field col-12 md:col-4"></div>
           <div className="field col-12 md:col-4"></div>
             <div className="field col-12 md:col-4">
-              <label htmlFor="in">SLA Policy Name</label>
+              <label htmlFor="in">SLA Policy Name</label>&nbsp;&nbsp;
               <InputText id="slaName" style={{width: "250px"}} placeholder="ex: Our Default Policy" value={formData.slaName} onChange={(event) => setFormData({ ...formData, slaName: event.target.value } )}/>
             </div>
             <div className="field col-12 md:col-4">
