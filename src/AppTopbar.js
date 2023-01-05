@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import SignUpInfo from "./components/addAccountForm/SignUpInfo";
 import PersonalInfo from "./components/addAccountForm/PersonalInfo";
 import OtherInfo from "./components/addAccountForm/OtherInfo";
@@ -38,7 +38,7 @@ export const AppTopbar = (props) => {
   const [page, setPage] = useState(0);
   const [formData, setFormData] = useState({
     nickname: "",
-    birthday: "",
+    birthday: new Date(),
     otherFinancialInterests: "",
   });
 
@@ -58,12 +58,16 @@ export const AppTopbar = (props) => {
     //e.preventDefault(); // prevents page from reloading
     if (formData.nickname) {
       formSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: ' Personal Details Saved!'});
+      const personalizeSettingsString = JSON.stringify(formData); // stringify formData, required for sessionStorage
+      const personalizeSettingsLocalCopy = sessionStorage.setItem('personalizeSettingsLocalCopy', personalizeSettingsString); // store ticketsLocalCopy key data in localStorage
     } else {
       formFailMessage.current.show({severity: 'error', summary: 'Error:', detail: 'For Demo purposes, at a minimum, enter the nickname'});
     }
   };
 
-
+  const clearPersonalizeStorage = () => {
+    sessionStorage.removeItem('personalizeSettingsLocalCopy');
+  }
 
     return (
         <div className="layout-topbar">
