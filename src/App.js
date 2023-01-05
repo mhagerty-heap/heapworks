@@ -22,7 +22,7 @@ import CreateNewArticle from "./components/CreateNewArticle";
 import UserSettings from "./components/UserSettings";
 import ArticlesList from "./components/ArticlesList";
 import { Ticket } from "./components/Ticket";
-//import TicketsListTest from "./components/TicketsListTest";
+import HelpDocumentation from './components/HelpDocumentation';
 import { Toast } from 'primereact/toast';
 
 
@@ -170,7 +170,7 @@ const App = () => {
             ]
         },
         {
-            label: 'Changes List',
+            label: 'Changes',
             items: [
                 { label: 'Changes List', icon: 'pi pi-fw pi-book', to: '/changesList' },
                 { label: 'Create New Change', icon: 'pi pi-fw pi-plus', to: '/createNewChange' },
@@ -243,6 +243,7 @@ const App = () => {
                     <Route path="/userSettings" component={UserSettings} />
                     <Route path="/articlesList" component={ArticlesList} />
                     <Route path="/ticket" component={Ticket} />
+                    <Route path="/helpDocumentation" component={HelpDocumentation} />
                 </div>
 
                 <AppFooter layoutColorMode={layoutColorMode} />
