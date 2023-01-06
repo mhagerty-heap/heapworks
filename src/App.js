@@ -25,8 +25,6 @@ import { Ticket } from "./components/Ticket";
 import HelpDocumentation from './components/HelpDocumentation';
 import { Toast } from 'primereact/toast';
 
-
-
 import 'primereact/resources/primereact.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
