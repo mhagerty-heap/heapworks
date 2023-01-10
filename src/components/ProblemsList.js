@@ -37,14 +37,13 @@ const ProblemsList = (props) => {
 
     useEffect(() => {
         customerService.getProblems().then(data => { setInitiallyRetrievedTicketData(data)}); // get ticket data from locally stored json file
-        if ("problemsLocalCopy" in sessionStorage && sessionStorage.getItem("problemsLocalCopy") !== null && sessionStorage.getItem("problemsLocalCopy") !== '""') { // check if data already exists in sessionStorage
-          //console.log('problemsLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
-        } else {
-          const ticketsString = JSON.stringify(initiallyRetrievedTicketData); // stringify initiallyRetrievedTicketData, required for sessionStorage
-          const problemsLocalCopy = sessionStorage.setItem('problemsLocalCopy', ticketsString); // store problemsLocalCopy key data in localStorage
-        }
-    });
-
+    },[]);
+    if ("problemsLocalCopy" in sessionStorage && sessionStorage.getItem("problemsLocalCopy") !== null && sessionStorage.getItem("problemsLocalCopy") !== '""') { // check if data already exists in sessionStorage
+      //console.log('problemsLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
+    } else {
+      const ticketsString = JSON.stringify(initiallyRetrievedTicketData); // stringify initiallyRetrievedTicketData, required for sessionStorage
+      const problemsLocalCopy = sessionStorage.setItem('problemsLocalCopy', ticketsString); // store problemsLocalCopy key data in localStorage
+    }
     const ticketsLocalCopyParsed = JSON.parse(sessionStorage.getItem("problemsLocalCopy")); // parse object from sessionStorage "problemsLocalCopy" string to use in DataTable
 
 

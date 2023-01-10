@@ -17,18 +17,20 @@ import '../assets/layout/supportForm/SupportForm.css';
 const CreateNewArticle = () => {
 
     // Pull article data from json and set to local copy
-    const [initiallyRetrievedArticleData, setInitiallyRetrievedArticleData] = useState('');  // initially retrieved ticket data pulled from CustomerService
     const customerService = new CustomerService(); // CustomerService is used to request ticket json data
+    const [initiallyRetrievedArticleData, setInitiallyRetrievedArticleData] = useState('');  // initially retrieved ticket data pulled from CustomerService
+    
     useEffect(() => {
         customerService.getArticles().then(data => { setInitiallyRetrievedArticleData(data)}); // get ticket data from locally stored json file
-        if ("articlesLocalCopy" in sessionStorage && sessionStorage.getItem("articlesLocalCopy") !== null && sessionStorage.getItem("articlesLocalCopy") !== '""') { // check if data already exists in sessionStorage
-          //console.log('ticketsLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
-        } else {
-          const articlesString = JSON.stringify(initiallyRetrievedArticleData); // stringify initiallyRetrievedTicketData, required for sessionStorage
-          const articlesLocalCopy = sessionStorage.setItem('articlesLocalCopy', articlesString); // store ticketsLocalCopy key data in localStorage
-        }
-    });
+    },[]);
+    if ("articlesLocalCopy" in sessionStorage && sessionStorage.getItem("articlesLocalCopy") !== null && sessionStorage.getItem("articlesLocalCopy") !== '""') { // check if data already exists in sessionStorage
+      //console.log('ticketsLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
+    } else {
+      const articlesString = JSON.stringify(initiallyRetrievedArticleData); // stringify initiallyRetrievedTicketData, required for sessionStorage
+      const articlesLocalCopy = sessionStorage.setItem('articlesLocalCopy', articlesString); // store ticketsLocalCopy key data in localStorage
+    }
     const articlesLocalCopyParsed = JSON.parse(sessionStorage.getItem("articlesLocalCopy")); // parse object from sessionStorage "ticketsLocalCopy" string to use in DataTable
+
     var todaysDate = new Date().toLocaleDateString('en-US', {day: '2-digit', month: '2-digit', year: 'numeric'});
     const [newArticleNumber, setNewArticleNumber] = useState("");
 

@@ -33,18 +33,16 @@ const TicketsList = (props) => {
     const [filters, setFilters] = useState('');
 
     // make request to get local JSON data using CustomerService, and set to localTicketData, passing blank [] method to only load this data once on render...this was preventing change to sessionStorage
-    // useEffect(() => {loadInitialData();}, []);
 
     useEffect(() => {
         customerService.getTickets().then(data => { setInitiallyRetrievedTicketData(data)}); // get ticket data from locally stored json file
-        if ("ticketsLocalCopy" in sessionStorage && sessionStorage.getItem("ticketsLocalCopy") !== null && sessionStorage.getItem("ticketsLocalCopy") !== '""') { // check if data already exists in sessionStorage
-          //console.log('ticketsLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
-        } else {
-          const ticketsString = JSON.stringify(initiallyRetrievedTicketData); // stringify initiallyRetrievedTicketData, required for sessionStorage
-          const ticketsLocalCopy = sessionStorage.setItem('ticketsLocalCopy', ticketsString); // store ticketsLocalCopy key data in localStorage
-        }
-    });
-
+    },[]);
+    if ("ticketsLocalCopy" in sessionStorage && sessionStorage.getItem("ticketsLocalCopy") !== null && sessionStorage.getItem("ticketsLocalCopy") !== '""') { // check if data already exists in sessionStorage
+      //console.log('ticketsLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
+    } else {
+      const ticketsString = JSON.stringify(initiallyRetrievedTicketData); // stringify initiallyRetrievedTicketData, required for sessionStorage
+      const ticketsLocalCopy = sessionStorage.setItem('ticketsLocalCopy', ticketsString); // store ticketsLocalCopy key data in localStorage
+    }
     const ticketsLocalCopyParsed = JSON.parse(sessionStorage.getItem("ticketsLocalCopy")); // parse object from sessionStorage "ticketsLocalCopy" string to use in DataTable
 
 

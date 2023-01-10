@@ -22,14 +22,13 @@ const CreateNewChange = () => {
 
     useEffect(() => {
         customerService.getChanges().then(data => { setInitiallyRetrievedTicketData(data)}); // get ticket data from locally stored json file
-        if ("changesLocalCopy" in sessionStorage && sessionStorage.getItem("changesLocalCopy") !== null && sessionStorage.getItem("changesLocalCopy") !== '""') { // check if data already exists in sessionStorage
-          //console.log('changesLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
-        } else {
-          const ticketsString = JSON.stringify(initiallyRetrievedTicketData); // stringify initiallyRetrievedTicketData, required for sessionStorage
-          const changesLocalCopy = sessionStorage.setItem('changesLocalCopy', ticketsString); // store changesLocalCopy key data in localStorage
-        }
-    });
-
+    },[]);
+    if ("changesLocalCopy" in sessionStorage && sessionStorage.getItem("changesLocalCopy") !== null && sessionStorage.getItem("changesLocalCopy") !== '""') { // check if data already exists in sessionStorage
+      //console.log('changesLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
+    } else {
+      const ticketsString = JSON.stringify(initiallyRetrievedTicketData); // stringify initiallyRetrievedTicketData, required for sessionStorage
+      const changesLocalCopy = sessionStorage.setItem('changesLocalCopy', ticketsString); // store changesLocalCopy key data in localStorage
+    }
     const ticketsLocalCopyParsed = JSON.parse(sessionStorage.getItem("changesLocalCopy")); // parse object from sessionStorage "changesLocalCopy" string to use in DataTable
 
     const statusOptions = [

@@ -30,14 +30,13 @@ const ArticlesList = (props) => {
 
     useEffect(() => {
         customerService.getArticles().then(data => { setInitiallyRetrievedArticleData(data)}); // get ticket data from locally stored json file
-        if ("articlesLocalCopy" in sessionStorage && sessionStorage.getItem("articlesLocalCopy") !== null && sessionStorage.getItem("articlesLocalCopy") !== '""') { // check if data already exists in sessionStorage
-          //console.log('ticketsLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
-        } else {
-          const articlesString = JSON.stringify(initiallyRetrievedArticleData); // stringify initiallyRetrievedTicketData, required for sessionStorage
-          const articlesLocalCopy = sessionStorage.setItem('articlesLocalCopy', articlesString); // store ticketsLocalCopy key data in localStorage
-        }
-    });
-
+    },[]);
+    if ("articlesLocalCopy" in sessionStorage && sessionStorage.getItem("articlesLocalCopy") !== null && sessionStorage.getItem("articlesLocalCopy") !== '""') { // check if data already exists in sessionStorage
+      //console.log('ticketsLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
+    } else {
+      const articlesString = JSON.stringify(initiallyRetrievedArticleData); // stringify initiallyRetrievedTicketData, required for sessionStorage
+      const articlesLocalCopy = sessionStorage.setItem('articlesLocalCopy', articlesString); // store ticketsLocalCopy key data in localStorage
+    }
     const articlesLocalCopyParsed = JSON.parse(sessionStorage.getItem("articlesLocalCopy")); // parse object from sessionStorage "ticketsLocalCopy" string to use in DataTable
 
     const articleCategoryDropdownOptions = [
