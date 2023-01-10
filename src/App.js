@@ -23,8 +23,8 @@ import UserSettings from "./components/UserSettings";
 import ArticlesList from "./components/ArticlesList";
 import { Ticket } from "./components/Ticket";
 import HelpDocumentation from './components/HelpDocumentation';
+import CreateASupportTicket from './components/CreateASupportTicket';
 import { Toast } from 'primereact/toast';
-
 import 'primereact/resources/primereact.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
@@ -181,11 +181,19 @@ const App = () => {
             ]
         },
         {
+            label: 'Support',
+            items: [
+                { label: 'Create A Support Ticket', icon: 'pi pi-fw pi-ticket', to: '/createASupportTicket' },
+                // { label: 'All Blocks', icon: 'pi pi-fw pi-globe', url: 'https://www.primefaces.org/primeblocks-react' }
+            ]
+        },
+        {
             label: 'Admin',
             items: [
                 {label: 'Account Settings', icon: 'pi pi-fw pi-bolt', to: '/accountSettings', badge: "NEW" },
             ]
         },
+
 
     ];
 
@@ -242,6 +250,7 @@ const App = () => {
                     <Route path="/articlesList" component={ArticlesList} />
                     <Route path="/ticket" component={Ticket} />
                     <Route path="/helpDocumentation" component={HelpDocumentation} />
+                    <Route path="/createASupportTicket" component={CreateASupportTicket} />
                 </div>
 
                 <AppFooter layoutColorMode={layoutColorMode} />
