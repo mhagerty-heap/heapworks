@@ -120,7 +120,7 @@ function AccountSettings() {
       <div className=" card">
 
         <h5>Account Settings &nbsp;&nbsp;
-          <Button label="New Wizard" icon="pi pi-bolt" className="p-button-sm" onClick={() => onClick('displayBasic')}></Button>
+          <Button label="Start Wizard" icon="pi pi-bolt" className="p-button-sm" onClick={() => onClick('displayBasic')}></Button>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button className="p-link layout-topbar-button" style={{ color: 'transparent' }} onClick={clearSessionStorage} >
             <i className="pi pi-minus"/>
