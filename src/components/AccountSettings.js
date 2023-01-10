@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 
 function AccountSettings() {
 
-  const [displayBasic, setDisplayBasic] = useState(true);
+  const [displayBasic, setDisplayBasic] = useState(false);
   const [position, setPosition] = useState('center');
   const formSuccessMessage = useRef(null);
   const formFailMessage = useRef(null);
@@ -120,7 +120,7 @@ function AccountSettings() {
       <div className=" card">
 
         <h5>Account Settings &nbsp;&nbsp;
-          <Button label="Wizard" icon="pi pi-bolt" className="p-button-sm" onClick={() => onClick('displayBasic')}></Button>
+          <Button label="New Wizard" icon="pi pi-bolt" className="p-button-sm" onClick={() => onClick('displayBasic')}></Button>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button className="p-link layout-topbar-button" style={{ color: 'transparent' }} onClick={clearSessionStorage} >
             <i className="pi pi-minus"/>
