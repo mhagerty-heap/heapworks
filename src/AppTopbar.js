@@ -95,6 +95,12 @@ export const AppTopbar = (props) => {
                         <Button icon="pi pi-user-edit"  className="p-button-success" onClick={() => setDisplayBasic(true)}></Button>
                     </li>
                     <li>
+                        <a href="/helpDocumentation">
+                          <button className="p-link layout-topbar-button" >
+                              <i className="pi pi-question"/>
+                              <span>Help</span>
+                          </button>
+                        </a>
                         <a href="/signin.html">
                           <button className="p-link layout-topbar-button" >
                               <i className="pi pi-sign-out"/>

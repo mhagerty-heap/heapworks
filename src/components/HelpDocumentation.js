@@ -22,18 +22,18 @@ const HelpDocumentation = () => {
               var iFrameWithoutIdentity = document.createElement('iFrame');
               iFrameWithoutIdentity.setAttribute("width", "1000px");
               iFrameWithoutIdentity.setAttribute("height", "800px");
-              iFrameWithoutIdentity.setAttribute("src", "https://play-digital-merch-documentation.vercel.app/");
-              console.log("No Heap Identity Set on play-digital-merch.vercel.app domain");
-              console.log("requesting in iFrame: https://play-digital-merch-documentation.vercel.app/");
+              iFrameWithoutIdentity.setAttribute("src", "https://heapworks-help.vercel.app/");
+              console.log("No Heap Identity Set on heapworks-help.vercel.app domain");
+              console.log("requesting in iFrame: https://heapworks-help.vercel.app/");
               document.getElementById("docsIframe").appendChild(iFrameWithoutIdentity);
           } else {
               // add child iFrame to docsIframe parent with heapId as query string
               var iFrameWithIdentity = document.createElement('iFrame');
-              var urlWithIdentity = "https://play-digital-merch-documentation.vercel.app/?heapIdentity=" + heapIdentity;
+              var urlWithIdentity = "https://heapworks-help.vercel.app/?heapIdentity=" + heapIdentity;
               iFrameWithIdentity.setAttribute("width", "1000px");
               iFrameWithIdentity.setAttribute("height", "800px");
               iFrameWithIdentity.setAttribute("src", urlWithIdentity);
-              console.log("Heap Identity on play-digital-merch.vercel.app domain = " + heapIdentity);
+              console.log("Heap Identity on heapworks-help.vercel.app domain = " + heapIdentity);
               console.log("requesting in iFrame: " + urlWithIdentity);
               document.getElementById("docsIframe").appendChild(iFrameWithIdentity);
           }
