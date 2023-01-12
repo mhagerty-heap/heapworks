@@ -99,7 +99,7 @@ const ChangesList = (props) => {
     }
 
     const updateTicket = (event) => { //submits ticket form entry data into sessionStorage
-      event.preventDefault();
+      //event.preventDefault();
       var ticketIndex = ticketsLocalCopyParsed.findIndex(item => item.ticketNumber === ticketNumber);
       if (ticketIndex == "-1") { // if no item selected then index is -1
         updateTicketFailureMessage.current.show({severity: 'info', summary: 'No Change', detail: 'Please select a Change'});

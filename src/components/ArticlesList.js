@@ -79,7 +79,7 @@ const ArticlesList = (props) => {
     }
 
     const updateArticle = (event) => { //submits ticket form entry data into sessionStorage
-      event.preventDefault();
+      //event.preventDefault();
       var articleIndex = articlesLocalCopyParsed.findIndex(item => item.id === articleId);
       if (articleIndex == "-1") { // if no item selected then index is -1
         updateArticleFailureMessage.current.show({severity: 'info', summary: 'No Change', detail: 'Please select an Article'});
