@@ -180,7 +180,7 @@ function AccountSettings() {
               <Divider align="left">
                 <div className="inline-flex align-items-center">
                   <i className="pi pi-user mr-2"></i>
-                  <b>Username and Domain Settings</b>
+                  <b>Username and Domain</b>
                 </div>
               </Divider>
 
@@ -201,7 +201,7 @@ function AccountSettings() {
               <Divider align="left">
                 <div className="inline-flex align-items-center">
                   <i className="pi pi-clock mr-2"></i>
-                  <b>Business Day & Hour Settings</b>
+                  <b>Business Days & Hours</b>
                 </div>
               </Divider>
                 <div className="field col-12 md:col-4">
@@ -220,7 +220,7 @@ function AccountSettings() {
               <Divider align="left">
                 <div className="inline-flex align-items-center">
                   <i className="pi pi-globe mr-2"></i>
-                  <b>SLA Policy Settings</b>
+                  <b>SLA Policy</b>
                 </div>
               </Divider>
                   <div className="field col-12 md:col-4">
