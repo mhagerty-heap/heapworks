@@ -119,7 +119,7 @@ function AccountSettings() {
     //e.preventDefault(); // prevents page from reloading
     console.log(e);
     if (formData.supportUsername) {
-      wizardFormSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: ' Account Details Saved!'});
+      wizardFormSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: 'Wizard Account Details Saved!'});
       const accountSettingsString = JSON.stringify(formData); // stringify formData, required for sessionStorage
       const accountSettingsLocalCopy = sessionStorage.setItem('accountSettingsLocalCopy', accountSettingsString);
       setSupportUsernameValue(formData.supportUsername);
@@ -140,7 +140,7 @@ function AccountSettings() {
   const nonWizardFormSubmit = (event) => { //submits ticket form entry data into sessionStorage
     event.preventDefault();
     if (supportUsernameValue) {
-      nonWizardFormSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: ' Account Details Saved!'});
+      nonWizardFormSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: 'Form Account Details Saved!'});
       const formDataJsonObject = {helpdeskDomain: helpdeskDomainValue, helpdeskName: helpdeskNameValue, highResolveWithinTime: highResolveWithinTimeValue, highResponseWithinTime: highResponseWithinTimeValue, slaName: slaPolicyNameValue, supportDays: supportDaysValue, supportHours: supportHoursValue, supportUsername: supportUsernameValue, urgentResolveWithinTime: urgentResolveWithinTimeValue, urgentResponseWithinTime: urgentResponseWithinTimeValue};
       const accountSettingsString = JSON.stringify(formDataJsonObject); // stringify formData, required for sessionStorage
       const accountSettingsLocalCopy = sessionStorage.setItem('accountSettingsLocalCopy', accountSettingsString); // store ticketsLocalCopy key data in localStorage
@@ -175,7 +175,7 @@ function AccountSettings() {
         <form id="accountSettingsNonWizard" name="accountSettingsNonWizard">
           <div className="p-fluid grid">
             <div className="card grid col-12">
-              <h5>Username & Domain Settings</h5>
+              <h6>Username & Domain Settings</h6>
               <div className="field col-12 md:col-4"></div>
               <div className="field col-12 md:col-4"></div>
               <div className="field col-12 md:col-4">
@@ -193,7 +193,7 @@ function AccountSettings() {
             </div>
 
             <div className="card grid col-12">
-            <h5>Business Day & Hours Settings</h5>
+            <h6>Business Day & Hours Settings</h6>
             <div className="field col-12 md:col-4"></div>
             <div className="field col-12 md:col-4"></div>
               <div className="field col-12 md:col-4">
@@ -209,7 +209,7 @@ function AccountSettings() {
             </div>
 
             <div className="card grid col-12">
-            <h5>SLA Policy Settings</h5>
+            <h6>SLA Policy Settings</h6>
             <div className="field col-12 md:col-4"></div>
             <div className="field col-12 md:col-4"></div>
               <div className="field col-12 md:col-4">
