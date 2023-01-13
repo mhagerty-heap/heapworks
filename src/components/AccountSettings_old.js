@@ -17,39 +17,8 @@ function AccountSettings() {
 
   const [displayBasic, setDisplayBasic] = useState(false);
   const [position, setPosition] = useState('center');
-  const wizardFormSuccessMessage = useRef(null);
-  const wizardFormFailMessage = useRef(null);
-  const nonWizardFormSuccessMessage = useRef(null);
-  const nonWizardFormFailMessage = useRef(null);
-  const [supportUsernameValue, setSupportUsernameValue] = useState('');
-  const [helpdeskNameValue, setHelpdeskNameValue] = useState('');
-  const [helpdeskDomainValue, setHelpdeskDomainValue] = useState('');
-  const [supportDaysValue, setSupportDaysValue] = useState('');
-  const [supportHoursValue, setSupportHoursValue] = useState('');
-  const [slaPolicyNameValue, setSlaPolicyNameValue] = useState('');
-  const [urgentResponseWithinTimeValue, setUrgentResponseWithinTimeValue] = useState('');
-  const [urgentResolveWithinTimeValue, setUrgentResolveWithinTimeValue] = useState('');
-  const [highResponseWithinTimeValue, setHighResponseWithinTimeValue] = useState('');
-  const [highResolveWithinTimeValue, setHighResolveWithinTimeValue] = useState('');
-
-
-  useEffect(() => {
-    if ("accountSettingsLocalCopy" in sessionStorage && sessionStorage.getItem("accountSettingsLocalCopy") !== null && sessionStorage.getItem("accountSettingsLocalCopy") !== '""') { // check if data already exists in sessionStorage
-      //console.log('ticketsLocalCopy already exists and is not null, so will use existing value from sessionStorage'); // placeholder
-      const accountSettingsLocalCopyParsed = JSON.parse(sessionStorage.getItem("accountSettingsLocalCopy"));
-      setFormData(accountSettingsLocalCopyParsed); // set values in wizard formData
-      setSupportUsernameValue(accountSettingsLocalCopyParsed.supportUsername);
-      setHelpdeskNameValue(accountSettingsLocalCopyParsed.helpdeskName);
-      setHelpdeskDomainValue(accountSettingsLocalCopyParsed.helpdeskDomain);
-      setSupportDaysValue(accountSettingsLocalCopyParsed.supportDays);
-      setSupportHoursValue(accountSettingsLocalCopyParsed.supportHours);
-      setSlaPolicyNameValue(accountSettingsLocalCopyParsed.slaName);
-      setUrgentResponseWithinTimeValue(accountSettingsLocalCopyParsed.urgentResponseWithinTime);
-      setUrgentResolveWithinTimeValue(accountSettingsLocalCopyParsed.urgentResolveWithinTime);
-      setHighResponseWithinTimeValue(accountSettingsLocalCopyParsed.highResponseWithinTime);
-      setHighResolveWithinTimeValue(accountSettingsLocalCopyParsed.highResolveWithinTime);
-    }
-  },[]); // closing brackets causes useEffect to run once instead of evevy state change
+  const formSuccessMessage = useRef(null);
+  const formFailMessage = useRef(null);
 
   const dialogFuncMap = {
     'displayBasic': setDisplayBasic,
@@ -115,45 +84,39 @@ function AccountSettings() {
     }
   };
 
-  const wizardFormSubmit = (e) => {
+  const formSubmitMessage = (e) => {
     //e.preventDefault(); // prevents page from reloading
     console.log(e);
     if (formData.supportUsername) {
-      wizardFormSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: ' Account Details Saved!'});
+      formSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: ' Account Details Saved!'});
       const accountSettingsString = JSON.stringify(formData); // stringify formData, required for sessionStorage
-      const accountSettingsLocalCopy = sessionStorage.setItem('accountSettingsLocalCopy', accountSettingsString);
-      setSupportUsernameValue(formData.supportUsername);
-      setHelpdeskNameValue(formData.helpdeskName);
-      setHelpdeskDomainValue(formData.helpdeskDomain);
-      setSupportDaysValue(formData.supportDays);
-      setSupportHoursValue(formData.supportHours);
-      setSlaPolicyNameValue(formData.slaName);
-      setUrgentResponseWithinTimeValue(formData.urgentResponseWithinTime);
-      setUrgentResolveWithinTimeValue(formData.urgentResolveWithinTime);
-      setHighResponseWithinTimeValue(formData.highResponseWithinTime);
-      setHighResolveWithinTimeValue(formData.highResolveWithinTime); // store ticketsLocalCopy key data in localStorage
-    } else {
-      wizardFormFailMessage.current.show({severity: 'error', summary: 'Error:', detail: 'For Demo purposes, at a minimum, enter the Support Username'});
-    }
-  };
-
-  const nonWizardFormSubmit = (event) => { //submits ticket form entry data into sessionStorage
-    event.preventDefault();
-    if (supportUsernameValue) {
-      nonWizardFormSuccessMessage.current.show({severity: 'success', summary: 'Success:', detail: ' Account Details Saved!'});
-      const formDataJsonObject = {helpdeskDomain: helpdeskDomainValue, helpdeskName: helpdeskNameValue, highResolveWithinTime: highResolveWithinTimeValue, highResponseWithinTime: highResponseWithinTimeValue, slaName: slaPolicyNameValue, supportDays: supportDaysValue, supportHours: supportHoursValue, supportUsername: supportUsernameValue, urgentResolveWithinTime: urgentResolveWithinTimeValue, urgentResponseWithinTime: urgentResponseWithinTimeValue};
-      const accountSettingsString = JSON.stringify(formDataJsonObject); // stringify formData, required for sessionStorage
       const accountSettingsLocalCopy = sessionStorage.setItem('accountSettingsLocalCopy', accountSettingsString); // store ticketsLocalCopy key data in localStorage
-      console.log(accountSettingsString);
-      setFormData(formDataJsonObject);
     } else {
-      nonWizardFormFailMessage.current.show({severity: 'error', summary: 'Error:', detail: 'For Demo purposes, at a minimum, enter the Support Username'});
+      formFailMessage.current.show({severity: 'error', summary: 'Error:', detail: 'For Demo purposes, at a minimum, enter the Support Username'});
     }
   };
 
   const clearSessionStorage = () => {
     sessionStorage.removeItem('accountSettingsLocalCopy');
   }
+
+  const updateAccount = (event) => { //submits ticket form entry data into sessionStorage
+    //event.preventDefault();
+    console.log("updataAccountNonWizard");
+  };
+
+
+  useEffect(() => {
+    if ("accountSettingsLocalCopy" in sessionStorage && sessionStorage.getItem("accountSettingsLocalCopy") !== null && sessionStorage.getItem("accountSettingsLocalCopy") !== '""') { // check if data already exists in sessionStorage
+      console.log('accountSettingsLocalCopy exists in sessionStorage'); // placeholder
+      const accountSettingsLocalCopyParsed = JSON.parse(sessionStorage.getItem("accountSettingsLocalCopy"));
+      setFormData(accountSettingsLocalCopyParsed);
+    } else {
+      console.log('accountSettingsLocalCopy does not exist in sessionStorage');
+      //const settingsString = JSON.stringify(initiallyRetrievedTicketData); // stringify initiallyRetrievedTicketData, required for sessionStorage
+      //const settingsLocalCopy = sessionStorage.setItem('ticketsLocalCopy', ticketsString); // store ticketsLocalCopy key data in localStorage
+    }
+  });
 
 
   return (
@@ -169,8 +132,8 @@ function AccountSettings() {
           </button>
         </h5>
         <div className="field col-12 md:col-4"></div>
-        <Messages ref={wizardFormSuccessMessage} />
-        <Messages ref={wizardFormFailMessage} />
+        <Messages ref={formSuccessMessage} />
+        <Messages ref={formFailMessage} />
 
         <form id="accountSettingsNonWizard" name="accountSettingsNonWizard">
           <div className="p-fluid grid">
@@ -180,15 +143,15 @@ function AccountSettings() {
               <div className="field col-12 md:col-4"></div>
               <div className="field col-12 md:col-4">
                 <label htmlFor="in">Support Username</label>&nbsp;&nbsp;
-                <InputText id="supportUsernameValue" style={{width: "250px"}} placeholder="ex: play = play@playworks.com" value={supportUsernameValue} onChange={(event) => setSupportUsernameValue(event.target.value)}/>
+                <InputText id="supportUsername" style={{width: "250px"}} placeholder="ex: play = play@playworks.com" value={formData.supportUsername} onChange={(event) => setFormData({ ...formData, supportUsername: event.target.value } )}/>
               </div>
               <div className="field col-12 md:col-4">
                 <label htmlFor="in">Helpdesk Name</label>&nbsp;&nbsp;
-                <InputText id="helpdeskName" style={{width: "250px"}} placeholder="ex: Play Helpdesk" value={helpdeskNameValue} onChange={(event) => setHelpdeskNameValue(event.target.value)}/>
+                <InputText id="helpdeskName" style={{width: "250px"}} placeholder="ex: Play Helpdesk" value={formData.helpdeskName} onChange={(event) => setFormData({ ...formData, helpdeskName: event.target.value } )}/>
               </div>
               <div className="field col-12 md:col-4">
                   <label htmlFor="in">Helpdesk Domain</label>&nbsp;&nbsp;
-                  <InputText id="helpdeskDomain" style={{width: "250px"}} placeholder="ex: play = play.playworks.com" value={helpdeskDomainValue} onChange={(event) => setHelpdeskDomainValue(event.target.value)}/>
+                  <InputText id="helpdeskDomain" style={{width: "250px"}} placeholder="ex: play = play.playworks.com" value={formData.helpdeskDomain} onChange={(event) => setFormData({ ...formData, helpdeskDomain: event.target.value } )}/>
               </div>
             </div>
 
@@ -198,11 +161,11 @@ function AccountSettings() {
             <div className="field col-12 md:col-4"></div>
               <div className="field col-12 md:col-4">
                 <label htmlFor="in">Select Your Support Days (Multiple Allowed)</label>
-                <ListBox id="supportDays" multiple value={supportDaysValue} options={businessDays} onChange={(event) => setSupportDaysValue(event.value)} />
+                <ListBox id="supportDays" multiple value={formData.supportDays} options={businessDays} onChange={(event) => setFormData({ ...formData, supportDays: event.target.value } )} />
               </div>
               <div className="field col-12 md:col-4">
                 <label htmlFor="in">Select Your Support Hours (One Option Allowed)</label>
-                <ListBox id="supportHours" value={supportHoursValue} options={supportHours} onChange={(event) => setSupportHoursValue(event.value)} />
+                <ListBox id="supportHours" value={formData.supportHours} options={supportHours} onChange={(event) => setFormData({ ...formData, supportHours: event.target.value } )} />
               </div>
               <div className="field col-12 md:col-4">
               </div>
@@ -213,7 +176,8 @@ function AccountSettings() {
             <div className="field col-12 md:col-4"></div>
             <div className="field col-12 md:col-4"></div>
               <div className="field col-12 md:col-4">
-                <InputText id="slaName" style={{width: "250px"}} placeholder="SLA Policy Name" value={slaPolicyNameValue} onChange={(event) => setSlaPolicyNameValue(event.target.value)}/>
+                <label htmlFor="in">SLA Policy Name</label>&nbsp;&nbsp;
+                <InputText id="slaName" style={{width: "250px"}} placeholder="ex: Our Default Policy" value={formData.slaName} onChange={(event) => setFormData({ ...formData, slaName: event.target.value } )}/>
               </div>
               <div className="field col-12 md:col-4">
               </div>
@@ -221,30 +185,27 @@ function AccountSettings() {
               </div>
               <div className="field col-12 md:col-4">
                 <label htmlFor="in">Urgent Respond Within Time</label>
-                <Dropdown id="urgentResponseWithinTime" options={respondHoursOptions} value={urgentResponseWithinTimeValue} onChange={(event) => setUrgentResponseWithinTimeValue(event.value)}/>
+                <Dropdown id="urgentResponseWithinTime" options={respondHoursOptions} value={formData.urgentResponseWithinTime} onChange={(event) => setFormData({ ...formData, urgentResponseWithinTime: event.target.value } )}/>
               </div>
               <div className="field col-12 md:col-4">
                 <label htmlFor="in">Urgent Resolve Within Time</label>
-                <Dropdown id="urgentResolveWithinTime" options={respondHoursOptions} value={urgentResolveWithinTimeValue} onChange={(event) => setUrgentResolveWithinTimeValue(event.value)}/>
+                <Dropdown id="urgentResolveWithinTime" options={respondHoursOptions} value={formData.urgentResolveWithinTime} onChange={(event) => setFormData({ ...formData, urgentResolveWithinTime: event.target.value } )}/>
               </div>
               <div className="field col-12 md:col-4">
               </div>
               <div className="field col-12 md:col-4">
                 <label htmlFor="in">High Respond Within Time</label>
-                <Dropdown id="highResponseWithinTime" options={respondHoursOptions} value={highResponseWithinTimeValue} onChange={(event) => setHighResponseWithinTimeValue(event.value)}/>
+                <Dropdown id="highResponseWithinTime" options={respondHoursOptions} value={formData.highResponseWithinTime} onChange={(event) => setFormData({ ...formData, highResponseWithinTime: event.target.value } )}/>
               </div>
               <div className="field col-12 md:col-4">
                 <label htmlFor="in">High Resolve Within Time</label>
-                <Dropdown id="highResolveWithinTime" options={respondHoursOptions} value={highResolveWithinTimeValue} onChange={(event) => setHighResolveWithinTimeValue(event.value)}/>
+                <Dropdown id="highResolveWithinTime" options={respondHoursOptions} value={formData.highResolveWithinTime} onChange={(event) => setFormData({ ...formData, highResolveWithinTime: event.target.value } )}/>
               </div>
               <div className="field col-12 md:col-4">
               </div>
               <div className="col-2">
-                <Button id="updateAccountButtonNonWizard" name="updateAccountButtonNonWizard" label="Update Account" onClick={nonWizardFormSubmit}/>
+                <Button id="updateAccountButtonNonWizard" name="updateAccountButtonNonWizard" label="Update Account" onClick={updateAccount()}/>
               </div>
-              <Toast ref={nonWizardFormSuccessMessage} />
-              <Toast ref={nonWizardFormFailMessage} />
-
             </div>
           </div>
         </form>
@@ -269,7 +230,7 @@ function AccountSettings() {
                     if (page === FormTitles.length - 1) {
                       console.log(formData);
                       setDisplayBasic(false);
-                      wizardFormSubmit();
+                      formSubmitMessage();
                     } else {
                       setPage((currPage) => currPage + 1);
                     }
