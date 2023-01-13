@@ -10,6 +10,7 @@ import { Message } from 'primereact/message';
 import { InputText } from 'primereact/inputtext';
 import { ListBox } from 'primereact/listbox';
 import { Dropdown } from 'primereact/dropdown';
+import { Divider } from 'primereact/divider';
 import { Link } from "react-router-dom";
 
 
@@ -175,9 +176,14 @@ function AccountSettings() {
         <form id="accountSettingsNonWizard" name="accountSettingsNonWizard">
           <div className="p-fluid grid">
             <div className="card grid col-12">
-              <h6>Username & Domain Settings</h6>
-              <div className="field col-12 md:col-4"></div>
-              <div className="field col-12 md:col-4"></div>
+
+              <Divider align="left">
+                <div className="inline-flex align-items-center">
+                  <i className="pi pi-user mr-2"></i>
+                  <b>Username and Domain Settings</b>
+                </div>
+              </Divider>
+
               <div className="field col-12 md:col-4">
                 <label htmlFor="in">Support Username</label>&nbsp;&nbsp;
                 <InputText id="supportUsernameValue" style={{width: "250px"}} placeholder="ex: play = play@playworks.com" value={supportUsernameValue} onChange={(event) => setSupportUsernameValue(event.target.value)}/>
@@ -190,61 +196,64 @@ function AccountSettings() {
                   <label htmlFor="in">Helpdesk Domain</label>&nbsp;&nbsp;
                   <InputText id="helpdeskDomain" style={{width: "250px"}} placeholder="ex: play = play.playworks.com" value={helpdeskDomainValue} onChange={(event) => setHelpdeskDomainValue(event.target.value)}/>
               </div>
-            </div>
 
-            <div className="card grid col-12">
-            <h6>Business Day & Hours Settings</h6>
-            <div className="field col-12 md:col-4"></div>
-            <div className="field col-12 md:col-4"></div>
-              <div className="field col-12 md:col-4">
-                <label htmlFor="in">Select Your Support Days (Multiple Allowed)</label>
-                <ListBox id="supportDays" multiple value={supportDaysValue} options={businessDays} onChange={(event) => setSupportDaysValue(event.value)} />
+              <div className="grid col-12">
+              <Divider align="left">
+                <div className="inline-flex align-items-center">
+                  <i className="pi pi-clock mr-2"></i>
+                  <b>Business Day & Hour Settings</b>
+                </div>
+              </Divider>
+                <div className="field col-12 md:col-4">
+                  <label htmlFor="in">Select Your Support Days (Multiple Allowed)</label>
+                  <ListBox id="supportDays" multiple value={supportDaysValue} options={businessDays} onChange={(event) => setSupportDaysValue(event.value)} />
+                </div>
+                <div className="field col-12 md:col-4">
+                  <label htmlFor="in">Select Your Support Hours (One Option Allowed)</label>
+                  <ListBox id="supportHours" value={supportHoursValue} options={supportHours} onChange={(event) => setSupportHoursValue(event.value)} />
+                </div>
+                <div className="field col-12 md:col-4">
+                </div>
               </div>
-              <div className="field col-12 md:col-4">
-                <label htmlFor="in">Select Your Support Hours (One Option Allowed)</label>
-                <ListBox id="supportHours" value={supportHoursValue} options={supportHours} onChange={(event) => setSupportHoursValue(event.value)} />
-              </div>
-              <div className="field col-12 md:col-4">
-              </div>
-            </div>
 
-            <div className="card grid col-12">
-            <h6>SLA Policy Settings</h6>
-            <div className="field col-12 md:col-4"></div>
-            <div className="field col-12 md:col-4"></div>
-              <div className="field col-12 md:col-4">
-                <InputText id="slaName" style={{width: "250px"}} placeholder="SLA Policy Name" value={slaPolicyNameValue} onChange={(event) => setSlaPolicyNameValue(event.target.value)}/>
-              </div>
-              <div className="field col-12 md:col-4">
-              </div>
-              <div className="field col-12 md:col-4">
-              </div>
-              <div className="field col-12 md:col-4">
-                <label htmlFor="in">Urgent Respond Within Time</label>
-                <Dropdown id="urgentResponseWithinTime" options={respondHoursOptions} value={urgentResponseWithinTimeValue} onChange={(event) => setUrgentResponseWithinTimeValue(event.value)}/>
-              </div>
-              <div className="field col-12 md:col-4">
-                <label htmlFor="in">Urgent Resolve Within Time</label>
-                <Dropdown id="urgentResolveWithinTime" options={respondHoursOptions} value={urgentResolveWithinTimeValue} onChange={(event) => setUrgentResolveWithinTimeValue(event.value)}/>
-              </div>
-              <div className="field col-12 md:col-4">
-              </div>
-              <div className="field col-12 md:col-4">
-                <label htmlFor="in">High Respond Within Time</label>
-                <Dropdown id="highResponseWithinTime" options={respondHoursOptions} value={highResponseWithinTimeValue} onChange={(event) => setHighResponseWithinTimeValue(event.value)}/>
-              </div>
-              <div className="field col-12 md:col-4">
-                <label htmlFor="in">High Resolve Within Time</label>
-                <Dropdown id="highResolveWithinTime" options={respondHoursOptions} value={highResolveWithinTimeValue} onChange={(event) => setHighResolveWithinTimeValue(event.value)}/>
-              </div>
-              <div className="field col-12 md:col-4">
-              </div>
-              <div className="col-2">
-                <Button id="updateAccountButtonNonWizard" name="updateAccountButtonNonWizard" label="Update Account" onClick={nonWizardFormSubmit}/>
-              </div>
-              <Toast ref={nonWizardFormSuccessMessage} />
-              <Toast ref={nonWizardFormFailMessage} />
+              <div className="grid col-12">
+              <Divider align="left">
+                <div className="inline-flex align-items-center">
+                  <i className="pi pi-globe mr-2"></i>
+                  <b>SLA Policy Settings</b>
+                </div>
+              </Divider>
+                  <div className="field col-12 md:col-4">
+                    <label htmlFor="in">SLA Policy Name</label>&nbsp;&nbsp;&nbsp;
+                    <InputText id="slaName" style={{width: "250px"}} placeholder="SLA Policy Name" value={slaPolicyNameValue} onChange={(event) => setSlaPolicyNameValue(event.target.value)}/>
+                  </div>
+                  <div className="field col-12 md:col-4">
+                  </div>
+                  <div className="field col-12 md:col-4">
+                  </div>
+                  <div className="field col-12 md:col-3">
+                    <label htmlFor="in">Urgent Respond Within Time</label>
+                    <Dropdown id="urgentResponseWithinTime" options={respondHoursOptions} value={urgentResponseWithinTimeValue} onChange={(event) => setUrgentResponseWithinTimeValue(event.value)}/>
+                  </div>
+                  <div className="field col-12 md:col-3">
+                    <label htmlFor="in">Urgent Resolve Within Time</label>
+                    <Dropdown id="urgentResolveWithinTime" options={respondHoursOptions} value={urgentResolveWithinTimeValue} onChange={(event) => setUrgentResolveWithinTimeValue(event.value)}/>
+                  </div>
+                  <div className="field col-12 md:col-3">
+                    <label htmlFor="in">High Respond Within Time</label>
+                    <Dropdown id="highResponseWithinTime" options={respondHoursOptions} value={highResponseWithinTimeValue} onChange={(event) => setHighResponseWithinTimeValue(event.value)}/>
+                  </div>
+                  <div className="field col-12 md:col-3">
+                    <label htmlFor="in">High Resolve Within Time</label>
+                    <Dropdown id="highResolveWithinTime" options={respondHoursOptions} value={highResolveWithinTimeValue} onChange={(event) => setHighResolveWithinTimeValue(event.value)}/>
+                  </div>
+                  <div className="col-2">
+                    <Button id="updateAccountButtonNonWizard" name="updateAccountButtonNonWizard" label="Update Account" onClick={nonWizardFormSubmit}/>
+                  </div>
+                  <Toast ref={nonWizardFormSuccessMessage} />
+                  <Toast ref={nonWizardFormFailMessage} />
 
+              </div>
             </div>
           </div>
         </form>
