@@ -123,7 +123,7 @@ export const AppTopbar = (props) => {
 
                       <Button disabled={page == 0} id="Previous" label="Previous" onClick={() => {setPage((currPage) => currPage - 1)}} />
                       &nbsp;&nbsp;
-                      <Button id={page === FormTitles.length - 1 ? "Submit" : "Next"} label={page === FormTitles.length - 1 ? "Submit" : "Next"} onClick={() => {
+                      <Button id={page === FormTitles.length - 1 ? "Update" : "Next"} label={page === FormTitles.length - 1 ? "Update" : "Next"} onClick={() => {
                         if (page === FormTitles.length - 1) {
                           console.log(formData);
                           setDisplayBasic(false);
