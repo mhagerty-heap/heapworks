@@ -274,7 +274,7 @@ function AccountSettings() {
 
                   <Button id="Previous" disabled={page == 0} label="Previous" onClick={() => {setPage((currPage) => currPage - 1)}} />
                   &nbsp;&nbsp;
-                  <Button id={page === FormTitles.length - 1 ? "Submit" : "Next"} label={page === FormTitles.length - 1 ? "Submit" : "Next"} onClick={() => {
+                  <Button id={page === FormTitles.length - 1 ? "Complete Wizard" : "Next"} label={page === FormTitles.length - 1 ? "Complete Wizard" : "Next"} onClick={() => {
                     if (page === FormTitles.length - 1) {
                       console.log(formData);
                       setDisplayBasic(false);
