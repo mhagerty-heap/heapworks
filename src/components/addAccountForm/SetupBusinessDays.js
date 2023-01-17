@@ -25,12 +25,12 @@ function SetupBusinessDays({ formData, setFormData }) {
     <div className="sign-up-container">
       <div className="field col-12 md:col-4">
         <label htmlFor="in">Select Your Support Days (Multiple Allowed)</label>
-        <ListBox id="supportDays" multiple value={formData.supportDays} options={businessDays} onChange={(event) => setFormData({ ...formData, supportDays: event.target.value } )} />
+        <ListBox id="supportDaysWizard" multiple value={formData.supportDays} options={businessDays} onChange={(event) => setFormData({ ...formData, supportDays: event.target.value } )} />
 
       </div>
       <div className="field col-12 md:col-4">
         <label htmlFor="in">Select Your Support Hours (One Option Allowed)</label>
-        <ListBox id="supportHours" value={formData.supportHours} options={supportHours} onChange={(event) => setFormData({ ...formData, supportHours: event.target.value } )} />
+        <ListBox id="supportHoursWizard" value={formData.supportHours} options={supportHours} onChange={(event) => setFormData({ ...formData, supportHours: event.target.value } )} />
       </div>
     </div>
 

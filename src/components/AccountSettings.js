@@ -206,11 +206,11 @@ function AccountSettings() {
               </Divider>
                 <div className="field col-12 md:col-4">
                   <label htmlFor="in">Select Your Support Days (Multiple Allowed)</label>
-                  <ListBox id="supportDays" multiple value={supportDaysValue} options={businessDays} onChange={(event) => setSupportDaysValue(event.value)} />
+                  <ListBox id="supportDaysNonWizard" multiple value={supportDaysValue} options={businessDays} onChange={(event) => setSupportDaysValue(event.value)} />
                 </div>
                 <div className="field col-12 md:col-4">
                   <label htmlFor="in">Select Your Support Hours (One Option Allowed)</label>
-                  <ListBox id="supportHours" value={supportHoursValue} options={supportHours} onChange={(event) => setSupportHoursValue(event.value)} />
+                  <ListBox id="supportHoursNonWizard" value={supportHoursValue} options={supportHours} onChange={(event) => setSupportHoursValue(event.value)} />
                 </div>
                 <div className="field col-12 md:col-4">
                 </div>
