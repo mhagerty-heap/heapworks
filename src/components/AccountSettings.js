@@ -184,17 +184,19 @@ function AccountSettings() {
                 </div>
               </Divider>
 
-              <div className="field col-12 md:col-4">
+              <div className="field col-12 md:col-3">
                 <label htmlFor="in">Support Username</label>&nbsp;&nbsp;
-                <InputText id="supportUsernameValue" style={{width: "250px"}} placeholder="ex: play = play@playworks.com" value={supportUsernameValue} onChange={(event) => setSupportUsernameValue(event.target.value)}/>
+                <InputText id="supportUsernameValue" placeholder="ex: play = play@playworks.com" value={supportUsernameValue} onChange={(event) => setSupportUsernameValue(event.target.value)}/>
               </div>
-              <div className="field col-12 md:col-4">
+              <div className="field col-12 md:col-3">
                 <label htmlFor="in">Helpdesk Name</label>&nbsp;&nbsp;
-                <InputText id="helpdeskName" style={{width: "250px"}} placeholder="ex: Play Helpdesk" value={helpdeskNameValue} onChange={(event) => setHelpdeskNameValue(event.target.value)}/>
+                <InputText id="helpdeskName"  placeholder="ex: Play Helpdesk" value={helpdeskNameValue} onChange={(event) => setHelpdeskNameValue(event.target.value)}/>
               </div>
-              <div className="field col-12 md:col-4">
+              <div className="field col-12 md:col-3">
                   <label htmlFor="in">Helpdesk Domain</label>&nbsp;&nbsp;
-                  <InputText id="helpdeskDomain" style={{width: "250px"}} placeholder="ex: play = play.playworks.com" value={helpdeskDomainValue} onChange={(event) => setHelpdeskDomainValue(event.target.value)}/>
+                  <InputText id="helpdeskDomain"  placeholder="ex: play = play.playworks.com" value={helpdeskDomainValue} onChange={(event) => setHelpdeskDomainValue(event.target.value)}/>
+              </div>
+              <div className="field col-12 md:col-3">
               </div>
 
               <div className="grid col-12">
