@@ -196,7 +196,7 @@ function AccountSettings() {
                   <label htmlFor="in">Helpdesk Domain</label>&nbsp;&nbsp;
                   <InputText id="helpdeskDomain"  placeholder="ex: play = play.playworks.com" value={helpdeskDomainValue} onChange={(event) => setHelpdeskDomainValue(event.target.value)}/>
               </div>
-              <div className="field col-12 md:col-3">
+              <div className="field col-12 md:col-3"> 
               </div>
 
               <div className="grid col-12">
