@@ -5,7 +5,7 @@ const HelpDocumentation = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false); //this helps
 
-  // <iframe src="https://play-digital-merch-documentation.vercel.app" height="800" width="1000"/>
+  // <iframe src="https://heapworks-help.vercel.app" height="800" width="1000"/>
 
 
   useEffect(() => {
