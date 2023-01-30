@@ -12,7 +12,7 @@ function SetupDomain({ formData, setFormData }) {
       </div>
       <div className="field col-12 md:col-4" name="helpdeskName">
       <label htmlFor="in">Helpdesk Name</label>
-        <InputText id="helpdeskName" style={{width: "325px"}} placeholder="ex: Play Helpdesk" value={formData.helpdeskName} onChange={(event) => setFormData({ ...formData, helpdeskName: event.target.value } )}/>
+        <InputText id="helpdeskName" style={{width: "325px"}} placeholder="ex: ServiceDesk Helpdesk" value={formData.helpdeskName} onChange={(event) => setFormData({ ...formData, helpdeskName: event.target.value } )}/>
       </div>
       <div className="field col-12 md:col-4" name="helpdeskDomain">
         <label htmlFor="in">Helpdesk Domain</label>

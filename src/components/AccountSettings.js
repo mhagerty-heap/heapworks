@@ -190,7 +190,7 @@ function AccountSettings() {
               </div>
               <div className="field col-12 md:col-3">
                 <label htmlFor="in">Helpdesk Name</label>&nbsp;&nbsp;
-                <InputText id="helpdeskName"  placeholder="ex: Play Helpdesk" value={helpdeskNameValue} onChange={(event) => setHelpdeskNameValue(event.target.value)}/>
+                <InputText id="helpdeskName"  placeholder="ex: ServiceDesk Helpdesk" value={helpdeskNameValue} onChange={(event) => setHelpdeskNameValue(event.target.value)}/>
               </div>
               <div className="field col-12 md:col-3">
                   <label htmlFor="in">Helpdesk Domain</label>&nbsp;&nbsp;

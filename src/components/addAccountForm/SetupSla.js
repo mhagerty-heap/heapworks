@@ -18,7 +18,7 @@ function SetupSla({ formData, setFormData }) {
     <div className="sign-up-container">
       <div className="field col-12 md:col-4">
         <label htmlFor="in">SLA Policy Name</label>
-        <InputText id="slaName" style={{width: "325px"}} placeholder="Play Default Policy" value={formData.slaName} onChange={(event) => setFormData({ ...formData, slaName: event.target.value } )}/>
+        <InputText id="slaName" style={{width: "325px"}} placeholder="ServiceDesk Default Policy" value={formData.slaName} onChange={(event) => setFormData({ ...formData, slaName: event.target.value } )}/>
       </div>
       <div className="field col-12 md:col-4">
         <label htmlFor="in">Urgent Respond Within Time</label>
