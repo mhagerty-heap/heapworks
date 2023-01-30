@@ -8,7 +8,7 @@ function SetupDomain({ formData, setFormData }) {
     <div className="sign-up-container">
       <div className="field col-12 md:col-4" name="supportUsername">
       <label htmlFor="in">Support Username</label>
-        <InputText id="supportUsername" style={{width: "325px"}} placeholder="ex: play = play@playworks.com" value={formData.supportUsername} onChange={(event) => setFormData({ ...formData, supportUsername: event.target.value } )}/>
+        <InputText id="supportUsername" style={{width: "325px"}} placeholder="ex: test = test@servicedesk.com" value={formData.supportUsername} onChange={(event) => setFormData({ ...formData, supportUsername: event.target.value } )}/>
       </div>
       <div className="field col-12 md:col-4" name="helpdeskName">
       <label htmlFor="in">Helpdesk Name</label>
@@ -16,7 +16,7 @@ function SetupDomain({ formData, setFormData }) {
       </div>
       <div className="field col-12 md:col-4" name="helpdeskDomain">
         <label htmlFor="in">Helpdesk Domain</label>
-          <InputText id="helpdeskDomain" style={{width: "325px"}} placeholder="ex: play = play.playworks.com" value={formData.helpdeskDomain} onChange={(event) => setFormData({ ...formData, helpdeskDomain: event.target.value } )}/>
+          <InputText id="helpdeskDomain" style={{width: "325px"}} placeholder="ex: test = test.servicedesk.com" value={formData.helpdeskDomain} onChange={(event) => setFormData({ ...formData, helpdeskDomain: event.target.value } )}/>
       </div>
     </div>
 
