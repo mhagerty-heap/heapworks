@@ -72,8 +72,8 @@ export const AppTopbar = (props) => {
     return (
         <div className="layout-topbar">
 
-            <a href="/main.html" className="layout-topbar-logo">
-                <img src={props.layoutColorMode === 'light' ? 'images/marketing/logo/logo-black-new.png' : 'images/marketing/logo/logo-white-new.png'} alt="logo"/>
+            <a href="/main.html" >
+                <img width="170" height="80" src={props.layoutColorMode === 'light' ? 'images/marketing/logo/logo-gray-black.png' : 'images/marketing/logo/logo-gray-white.png'} alt="logo"/>
             </a>
 
             <button type="button" className="p-link  layout-menu-button layout-topbar-button" onClick={props.onToggleMenuClick}>
