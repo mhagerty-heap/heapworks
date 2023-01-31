@@ -158,7 +158,7 @@ const ArticlesList = (props) => {
                     <label htmlFor="articleContent">Article Content</label>
                     <Editor style={{height:'75px'}} id="articleContent" name="articleContent" value={selectedArticle.articleContent} onTextChange={(e) => setArticleContent(e.htmlValue)} />
                   </div>
-                  <div className="col-1">
+                  <div className="col-2">
                     <Button id="updateArticle" name="updateArticle" label="Update Article" onClick={updateArticle}/>
                   </div>
 

@@ -199,7 +199,7 @@ const ProblemsList = (props) => {
                     <label htmlFor="detailedDescriptionField">Detailed Description</label>
                     <Editor style={{height:'75px'}} id="detailedDescriptionField" name="detailedDescriptionField" value={selectedTicket.detailedDescription} onTextChange={(e) => setDetailedDescription(e.htmlValue)} />
                   </div>
-                  <div className="col-1">
+                  <div className="col-2">
                     <Button id="updateTicket" name="updateTicket" label="Update Problem" onClick={updateTicket}/>
                   </div>
 
