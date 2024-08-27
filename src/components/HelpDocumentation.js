@@ -14,7 +14,7 @@ const HelpDocumentation = () => {
 
         setTimeout(function(){  // set a 1 second timeout to wait for heap to load, not a great way to do this, but it works for now
           console.log('page loaded');
-          var heapIdentity = window.heap.identity;
+          var heapIdentity = window.heap.geIdentity;
           // console.log('Heap Identity on play-digital-merch.vercel.app = ' + heapIdentity);
 
           if (heapIdentity == null) {
