@@ -720,18 +720,22 @@
                                         //replace with Identify call
                                         console.log("@ in email address, Heap Identify Call made");
                                         if (emailAddress != ''){
-                                          heap.identify(emailAddress);
+                                          //heap.identify(emailAddress);
+                                          window._uxa.push([“identify“, emailAddress]);
                                           if (customerName != ''){
-                                            heap.addUserProperties({ "Account - Customer Name": customerName });
+                                            //heap.addUserProperties({ "Account - Customer Name": customerName });
+                                            window._uxa.push(["addUserProperties", { "Account - Customer Name": customerName } ]);
                                           }
                                           // if (emailAddress != ''){
                                           //   heap.addUserProperties({ "Account- Email Address": emailAddress });
                                           // }
                                           if (emailAddress != ''){
-                                            heap.addUserProperties({ "Account - Last Login": currentDateAndTime });
+                                            //heap.addUserProperties({ "Account - Last Login": currentDateAndTime });
+                                            window._uxa.push(["addUserProperties", { "Account - Last Login": currentDateAndTime } ]);
                                           }
                                           if (emailAddress != ''){
-                                            heap.addUserProperties({ "Account - Subscription Date": currentDateAndTime });
+                                            //heap.addUserProperties({ "Account - Subscription Date": currentDateAndTime });
+                                            window._uxa.push(["addUserProperties", { "Account - Subscription Date": currentDateAndTime } ]);
                                           }
                                           // if (streetAddress != ''){
                                           //   heap.addUserProperties({ "Account - Street Address": streetAddress });
@@ -740,7 +744,8 @@
                                           //   heap.addUserProperties({ "Account - Zip Code": zipCode });
                                           // }
                                           if (planSelected != ''){
-                                            heap.addUserProperties({ "Account - Subscribed Plan": planSelected });
+                                            //heap.addUserProperties({ "Account - Subscribed Plan": planSelected });
+                                            window._uxa.push(["addUserProperties", { "Account - Subscribed Plan": planSelected } ]);
                                           }
                                         }
                                         window.location.href = "/";
