@@ -920,8 +920,10 @@ The need for a robust IT system and process is imperative to enabling employees 
                                                 //replace with Identify call
                                                 console.log("@ in email address, Heap Identify Call made");
                                                 if (emailAddress != '') {
-                                                    heap.identify(emailAddress);
-                                                    heap.addUserProperties({ "WhitepaperTwo": "Downloaded" });
+                                                    //heap.identify(emailAddress);
+                                                    //heap.addUserProperties({ "WhitepaperTwo": "Downloaded" });
+                                                    window._uxa.push(['identify', emailAddress]);
+                                                    window._uxa.push(['addUserProperties', { "WhitepaperTwo": "Downloaded" } ])
                                                     thankYouDiv = document.getElementById("thankYouMessage");
                                                     thankYouDiv.removeAttribute("hidden");
                                                 }

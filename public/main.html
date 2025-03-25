@@ -5813,8 +5813,10 @@
                               //replace with Identify call
                               console.log("@ in email address, Heap Identify Call made");
                               if (emailAddress != '') {
-                                  heap.identify(emailAddress);
-                                  heap.addUserProperties({ "Contact Form Completed": "Yes" });
+                                  //heap.identify(emailAddress);
+                                  //heap.addUserProperties({ "Contact Form Completed": "Yes" });
+                                  window._uxa.push(['identify', emailAddress]);
+                                  window._uxa.push(['addUserProperties', { "Contact Form Completed": "Yes" } ])
                               }
                           }
                           thankYouDiv = document.getElementById("thankYouMessage");
