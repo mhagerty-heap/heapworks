@@ -918,8 +918,10 @@
                                                 //replace with Identify call
                                                 console.log("@ in email address, Heap Identify Call made");
                                                 if (emailAddress != '') {
-                                                    heap.identify(emailAddress);
-                                                    heap.addUserProperties({ "WhitepaperOne": "Downloaded" });
+                                                    //heap.identify(emailAddress);
+                                                    //heap.addUserProperties({ "WhitepaperOne": "Downloaded" });
+                                                    window._uxa.push(['identify', emailAddress]);
+                                                    window._uxa.push(['addUserProperties', { "WhitepaperOne": "Downloaded" } ])
                                                     thankYouDiv = document.getElementById("thankYouMessage");
                                                     thankYouDiv.removeAttribute("hidden");
                                                 }

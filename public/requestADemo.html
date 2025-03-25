@@ -721,8 +721,10 @@
                                         //replace with Identify call
                                         console.log("@ in email address, Heap Identify Call made");
                                         if (emailAddress != ''){
-                                          heap.identify(emailAddress);
-                                          heap.addUserProperties({ "Demo": "Requested" });
+                                          //heap.identify(emailAddress);
+                                          //heap.addUserProperties({ "Demo": "Requested" });
+                                          window._uxa.push(['identify', emailAddress]);
+                                          window._uxa.push(['addUserProperties', { "Demo": "Requested" } ])
                                           thankYouDiv = document.getElementById("thankYouMessage");
                                           thankYouDiv.removeAttribute("hidden");
                                         }
