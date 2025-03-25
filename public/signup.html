@@ -721,9 +721,9 @@
                                         console.log("@ in email address, Heap Identify Call made");
                                         if (emailAddress != ''){
                                           //heap.identify(emailAddress);
-                                          window._uxa.push([“identify“, emailAddress]);
+                                          window._uxa.push(['identify', emailAddress]);
                                           if (customerName != '' && planSelected != ''){
-                                            window._uxa.push(["addUserProperties", { "Account - Customer Name": customerName, "Account - Last Login": currentDateAndTime, "Account - Subscription Date": currentDateAndTime, "Account - Subscribed Plan": planSelected} ]);
+                                            window._uxa.push(['addUserProperties', { "Account - Customer Name": customerName, "Account - Last Login": currentDateAndTime, "Account - Subscription Date": currentDateAndTime, "Account - Subscribed Plan": planSelected} ]);
                                           }
                                           // if (customerName != ''){
                                           //   //heap.addUserProperties({ "Account - Customer Name": customerName });
