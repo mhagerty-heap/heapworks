@@ -5812,7 +5812,8 @@
                           if (emailAddress.indexOf('@') === -1) {
                               console.log("no @ in email address");
                               console.log(emailAddressField);
-                              
+
+
                           } else {
                               //replace with Identify call
                               console.log("@ in email address, Heap Identify Call made");
@@ -5823,6 +5824,13 @@
                                   window._uxa.push(['addUserProperties', { "Contact Form Completed": "Yes" } ])
                                   thankYouDiv = document.getElementById("thankYouMessage");
                                   thankYouDiv.removeAttribute("hidden");
+
+                                  const requestOptions = {
+                                      method: 'POST',
+                                      //headers: { 'Content-Type': 'application/json' },
+                                      //body: JSON.stringify({ title: 'Fetch POST Request Example' })
+                                  };
+                                  fetch('https://my.api.mockaroo.com/heapworks/contactForm/contact.json?key=3fa20c10', requestOptions)
                               }
                           }
                           //thankYouDiv = document.getElementById("thankYouMessage");
@@ -6460,6 +6468,15 @@
       }
 
       window.document.addEventListener("scroll", onScroll);
+    </script>
+
+    <script>
+      const requestOptions = {
+          method: 'POST',
+          //headers: { 'Content-Type': 'application/json' },
+          //body: JSON.stringify({ title: 'Fetch POST Request Example' })
+      };
+      fetch('https://my.api.mockaroo.com/heapworks/banner/banner.json?key=3fa20c10', requestOptions)
     </script>
 
     <script>console.log(banner);</script>
