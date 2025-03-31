@@ -5811,6 +5811,8 @@
                           var emailAddress = document.querySelector("#contact > div.container.px-4 > div > div.px-4.w-full.lg\\:w-5\\/12.xl\\:w-4\\/12 > div > form > div:nth-child(2) > input").value;
                           if (emailAddress.indexOf('@') === -1) {
                               console.log("no @ in email address");
+                              console.log(emailAddressField);
+                              
                           } else {
                               //replace with Identify call
                               console.log("@ in email address, Heap Identify Call made");
@@ -5819,10 +5821,12 @@
                                   //heap.addUserProperties({ "Contact Form Completed": "Yes" });
                                   window._uxa.push(['identify', emailAddress]);
                                   window._uxa.push(['addUserProperties', { "Contact Form Completed": "Yes" } ])
+                                  thankYouDiv = document.getElementById("thankYouMessage");
+                                  thankYouDiv.removeAttribute("hidden");
                               }
                           }
-                          thankYouDiv = document.getElementById("thankYouMessage");
-                          thankYouDiv.removeAttribute("hidden");
+                          //thankYouDiv = document.getElementById("thankYouMessage");
+                          //thankYouDiv.removeAttribute("hidden");
                       }
                   </script>
 
